@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.pdf -text binary
+*.docx -text binary
+*.doc -text binary
+*.xlsx -text binary
+*.xls -text binary
+*.pptx -text binary
+*.ppt -text binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.zip binary
