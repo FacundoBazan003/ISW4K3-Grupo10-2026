@@ -41,8 +41,8 @@ ISW4K3-Grupo10-2026/
     │   ├── TS/                       # Testing de Software
     │   └── LeanKanban/               # Lean y Kanban
     └── Presentaciones/
-        ├── PC_IntroduccionALaIngenieriaDeSoftware.pdf
-        └── PC_GestionDeConfiguracionDeSoftware.pdf
+        ├── PC_01_IntroduccionALaIngenieriaDeSoftware.pdf
+        └── PC_02_GestionDeConfiguracionDeSoftware.pdf
 ```
 
 ## Descripción de las carpetas

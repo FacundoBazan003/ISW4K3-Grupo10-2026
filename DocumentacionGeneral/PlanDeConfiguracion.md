@@ -53,14 +53,21 @@ Ejemplos:
 ### Presentaciones de Clase
 
 ```
-PC_<NombrePresentacion>.<ext>
+PC_<n>_<NombrePresentacion>.<ext>
 ```
+Donde:
+
+
+* `PC` identifica que se trata de una Presentación de Clase.
+* `<n>` es el número de la presentacion.
+* `<NombrePresentacion>` identifica el tema de la presentacion.
+* `<ext>` es la extensión del archivo.
 
 Ejemplos:
 
-* `PC_IntroduccionALaIngenieriaDeSoftware.pdf`
-* `PC_GestionDeConfiguracionDeSoftware.pdf`
-* `PC_TestingDeSoftware.pdf`
+* `PC_01_IntroduccionALaIngenieriaDeSoftware.pdf`
+* `PC_02_GestionDeConfiguracionDeSoftware.pdf`
+* `PC_03_TestingDeSoftware.pdf`
 
 ### Trabajos Prácticos
 
