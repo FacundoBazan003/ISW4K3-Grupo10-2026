@@ -39,7 +39,7 @@ El repositorio se encuentra organizado en las siguientes áreas principales:
 * **DocumentacionGeneral:** documentación relacionada con la organización y gestión del repositorio.
 * **ReglasDeJuego:** documentación y reglas proporcionadas por la cátedra.
 * **Resumenes:** resúmenes elaborados durante el cursado.
-* **TPs:** Trabajos Prácticos desarrollados durante la materia.
+* **TrabajosPracticos:** Trabajos Prácticos desarrollados durante la materia.
 * **Teorico:** material teórico, bibliografía y presentaciones de clase.
 
 La descripción detallada de la estructura del repositorio se encuentra en:
