@@ -1,0 +1,181 @@
+# Plan de Gestión de Configuración
+
+Este documento establece los criterios utilizados para identificar, nombrar, ubicar y versionar los Ítems de Configuración del repositorio de la materia Ingeniería de Software.
+
+---
+
+## 1. Ítems de Configuración
+
+Se considera **Ítem de Configuración (IC)** a todo elemento del repositorio que debe ser identificado, almacenado y controlado durante el cursado.
+
+Se definen los siguientes tipos:
+
+| Sigla | Ítem de Configuración | Descripción |
+| ----- | --------------------- | ----------- |
+| RDJ | Reglas de Juego | Documentos provistos por la cátedra que establecen las pautas de cursado: programa, presentación de la materia, material de apoyo. |
+| MB | Material Bibliográfico | Documentos bibliográficos utilizados como material de estudio, clasificados por temática. |
+| PC | Presentación de Clase | Presentaciones utilizadas o provistas durante las clases teóricas. |
+| TP | Trabajo Práctico | Archivos asociados a cada Trabajo Práctico: enunciado, informe, código u otros entregables. |
+| R | Resumen | Resúmenes elaborados por el grupo sobre las unidades o temas de la materia. |
+
+Los archivos de documentación propia del repositorio (`README.md`, `Glosario.md`, `EstructuraRepositorio.md`, este mismo documento) se nombran de forma descriptiva y se ubican en `DocumentacionGeneral/`.
+
+---
+
+## 2. Regla de nombrado
+
+Los nombres se construyen con una sigla que identifica el tipo de IC, separando los componentes con guion bajo (`_`) y utilizando notación *PascalCase* sin espacios ni acentos.
+
+### Reglas de Juego
+
+```
+RDJ_<NombreDocumento>.<ext>
+```
+
+Ejemplos:
+
+* `RDJ_Programa.pdf`
+* `RDJ_PresentacionDeLaMateria.pdf`
+* `RDJ_MaterialDeApoyo.pdf`
+
+### Material Bibliográfico
+
+```
+MB_<NombreMaterial>_<Autor>.<ext>
+```
+
+Ejemplos:
+
+* `MB_ElementsOfSoftwareConfigurationManagement_Bersoff.pdf`
+* `MB_LittleBookOfConfigurationManagement_AirlieSoftwareCouncil.pdf`
+* `MB_AgileSCM_Berczuk.pdf`
+
+### Presentaciones de Clase
+
+```
+PC_<NombrePresentacion>.<ext>
+```
+
+Ejemplos:
+
+* `PC_IntroduccionALaIngenieriaDeSoftware.pdf`
+* `PC_GestionDeConfiguracionDeSoftware.pdf`
+* `PC_TestingDeSoftware.pdf`
+
+### Trabajos Prácticos
+
+```
+TP<x>_<NombreTP>_<Tipo>.<ext>
+```
+
+Donde:
+
+* `TP` identifica que se trata de un Trabajo Práctico.
+* `<x>` es el número del Trabajo Práctico.
+* `<NombreTP>` identifica el tema del trabajo.
+* `<Tipo>` indica la clase de archivo dentro del TP: `Enunciado`, `Informe`, `Codigo`, `Anexo`.
+* `<ext>` es la extensión del archivo.
+
+Ejemplos:
+
+* `TP4_HerramientasSCM_Enunciado.pdf`
+* `TP4_HerramientasSCM_Informe.pdf`
+* `TP5_UsoDelRepositorio_Enunciado.pdf`
+
+### Resúmenes
+
+```
+R_<Tema>.<ext>
+```
+
+Ejemplo:
+
+* `R_GestionDeConfiguracionDeSoftware.pdf`
+
+El objetivo de la regla es que el nombre permita identificar el tipo y el contenido del archivo sin necesidad de abrirlo.
+
+---
+
+## 3. Ubicación de los Ítems de Configuración
+
+La ubicación forma parte de la identificación del IC. Cada archivo debe almacenarse en la carpeta definida para su tipo:
+
+| Ítem de Configuración | Regla de nombrado | Ubicación |
+| --------------------- | ----------------- | --------- |
+| Reglas de Juego | `RDJ_<NombreDocumento>.<ext>` | `/ReglasDeJuego` |
+| Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
+| Presentación de Clase | `PC_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
+| Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| Resumen | `R_<Tema>.<ext>` | `/Resumenes` |
+| Documentación de configuración | Nombre descriptivo | `/DocumentacionGeneral` |
+
+Las temáticas admitidas para la bibliografía son: `ISW`, `PA`, `SCM`, `TS`, `LeanKanban`.
+
+La estructura completa se documenta en [`EstructuraRepositorio.md`](EstructuraRepositorio.md).
+
+---
+
+## 4. Gestión de cambios
+
+Los cambios se controlan mediante Git. Toda incorporación, modificación o eliminación significativa debe registrarse mediante un commit.
+
+### Convención de mensajes de commit
+
+| Prefijo | Uso | Ejemplo |
+| ------- | --- | ------- |
+| `add:` | Incorporar un elemento nuevo | `add: agregar enunciado del TP4` |
+| `update:` | Modificar o mejorar un elemento existente | `update: corregir tabla de ICs en PlanDeConfiguracion` |
+| `remove:` | Eliminar un elemento | `remove: eliminar presentación duplicada` |
+
+Pautas:
+
+* Usar verbos en presente.
+* El mensaje debe dejar claro **qué** se modificó y **con qué objetivo**.
+* Un commit por cambio lógico; evitar commits que mezclen incorporaciones no relacionadas.
+
+### Archivos excluidos del control
+
+No se versionan archivos derivados ni dependencias descargables (por ejemplo `node_modules/`, `target/`, `build/`, `.env`). Cada TP que incluya código debe incorporar su propio `.gitignore` antes del primer commit del código.
+
+---
+
+## 5. Criterio para establecer una Línea Base
+
+Se establece una **Línea Base (LB)** al momento de recibir la corrección de cada Trabajo Práctico. La Línea Base está compuesta por la documentación, el código y los Ítems de Configuración desarrollados hasta ese momento, dentro de los límites de tiempo definidos por la cátedra.
+
+La Línea Base representa un estado estable y de referencia del repositorio. Una vez marcada no se modifica: los cambios posteriores se registran mediante nuevos commits y, cuando corresponda, dan lugar a una nueva Línea Base.
+
+---
+
+## 6. Identificación de Líneas Base
+
+Cada Línea Base se identifica con un número de versión:
+
+```
+vX.Y - <descripcion>
+```
+
+* El número **mayor** (`X`) se incrementa con la primera entrega de un nuevo Trabajo Práctico.
+* El número **menor** (`Y`) se incrementa cuando existen correcciones o reentregas del mismo Trabajo Práctico.
+
+Ejemplos:
+
+* `v1.0 - Entrega TP4`
+* `v1.1 - Reentrega TP4`
+* `v2.0 - Entrega TP5`
+
+En Git, la Línea Base se materializa mediante un **tag anotado**, donde el nombre del tag es el número de versión y el mensaje es la descripción:
+
+```bash
+git tag -a v1.0 -m "Entrega TP4"
+git push origin v1.0
+```
+
+---
+
+## 7. Herramientas
+
+| Herramienta | Uso |
+| ----------- | --- |
+| Git | Motor de control de versiones. |
+| GitHub | Repositorio remoto de acceso público para los integrantes y la cátedra. |
