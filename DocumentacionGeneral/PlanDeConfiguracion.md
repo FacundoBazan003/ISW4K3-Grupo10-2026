@@ -11,7 +11,7 @@ Se considera **Ítem de Configuración (IC)** a todo elemento del repositorio qu
 Se definen los siguientes tipos:
 
 | Sigla | Ítem de Configuración | Descripción |
-| ----- | --------------------- | ----------- |
+| --- | --- | --- |
 | RDJ | Reglas de Juego | Documentos provistos por la cátedra que establecen las pautas de cursado: programa, presentación de la materia, material de apoyo. |
 | MB | Material Bibliográfico | Documentos bibliográficos utilizados como material de estudio, clasificados por temática. |
 | PC | Presentación de Clase | Presentaciones utilizadas o provistas durante las clases teóricas. |
@@ -30,6 +30,7 @@ Los nombres se construyen con una sigla que identifica el tipo de IC, separando 
 
 ```
 RDJ_<NombreDocumento>.<ext>
+
 ```
 
 Ejemplos:
@@ -42,6 +43,7 @@ Ejemplos:
 
 ```
 MB_<NombreMaterial>_<Autor>.<ext>
+
 ```
 
 Ejemplos:
@@ -54,9 +56,10 @@ Ejemplos:
 
 ```
 PC_<n>_<NombrePresentacion>.<ext>
-```
-Donde:
 
+```
+
+Donde:
 
 * `PC` identifica que se trata de una Presentación de Clase.
 * `<n>` es el número de la presentacion.
@@ -73,6 +76,7 @@ Ejemplos:
 
 ```
 TP<x>_<NombreTP>_<Tipo>.<ext>
+
 ```
 
 Donde:
@@ -93,6 +97,7 @@ Ejemplos:
 
 ```
 R_<Tema>.<ext>
+
 ```
 
 Ejemplo:
@@ -108,7 +113,7 @@ El objetivo de la regla es que el nombre permita identificar el tipo y el conten
 La ubicación forma parte de la identificación del IC. Cada archivo debe almacenarse en la carpeta definida para su tipo:
 
 | Ítem de Configuración | Regla de nombrado | Ubicación |
-| --------------------- | ----------------- | --------- |
+| --- | --- | --- |
 | Reglas de Juego | `RDJ_<NombreDocumento>.<ext>` | `/ReglasDeJuego` |
 | Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
 | Presentación de Clase | `PC_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
@@ -129,7 +134,7 @@ Los cambios se controlan mediante Git. Toda incorporación, modificación o elim
 ### Convención de mensajes de commit
 
 | Prefijo | Uso | Ejemplo |
-| ------- | --- | ------- |
+| --- | --- | --- |
 | `add:` | Incorporar un elemento nuevo | `add: agregar enunciado del TP4` |
 | `update:` | Modificar o mejorar un elemento existente | `update: corregir tabla de ICs en PlanDeConfiguracion` |
 | `remove:` | Eliminar un elemento | `remove: eliminar presentación duplicada` |
@@ -148,9 +153,9 @@ No se versionan archivos derivados ni dependencias descargables (por ejemplo `no
 
 ## 5. Criterio para establecer una Línea Base
 
-Se establece una **Línea Base (LB)** al momento de recibir la corrección de cada Trabajo Práctico. La Línea Base está compuesta por la documentación, el código y los Ítems de Configuración desarrollados hasta ese momento, dentro de los límites de tiempo definidos por la cátedra.
+Se establece una **Línea Base (LB)** de manera periódica **cada 30 días** a lo largo del cursado. La Línea Base está compuesta por la totalidad de la documentación, código y demás Ítems de Configuración consolidados y estables en el repositorio hasta esa fecha.
 
-La Línea Base representa un estado estable y de referencia del repositorio. Una vez marcada no se modifica: los cambios posteriores se registran mediante nuevos commits y, cuando corresponda, dan lugar a una nueva Línea Base.
+La Línea Base representa un estado formal y de referencia del repositorio. Una vez marcada no se modifica: los cambios posteriores se registran mediante nuevos commits y se integrarán en la siguiente Línea Base programada.
 
 ---
 
@@ -159,23 +164,25 @@ La Línea Base representa un estado estable y de referencia del repositorio. Una
 Cada Línea Base se identifica con un número de versión:
 
 ```
-vX.Y - <descripcion>
+vX.0 - <descripcion>
+
 ```
 
-* El número **mayor** (`X`) se incrementa con la primera entrega de un nuevo Trabajo Práctico.
-* El número **menor** (`Y`) se incrementa cuando existen correcciones o reentregas del mismo Trabajo Práctico.
+* El número **mayor** (`X`) se incrementa secuencialmente con cada ciclo periódico de 30 días (`v1.0`, `v2.0`, `v3.0`, etc.).
+* El número **menor** se mantiene en `0` para las líneas base programadas, o se incrementa (`vX.1`, `vX.2`) únicamente si surge una corrección de emergencia sobre una línea base ya cerrada.
 
 Ejemplos:
 
-* `v1.0 - Entrega TP4`
-* `v1.1 - Reentrega TP4`
-* `v2.0 - Entrega TP5`
+* `v1.0 - Linea Base Mes 1 (Dia 30)`
+* `v2.0 - Linea Base Mes 2 (Dia 60)`
+* `v3.0 - Linea Base Mes 3 (Dia 90)`
 
 En Git, la Línea Base se materializa mediante un **tag anotado**, donde el nombre del tag es el número de versión y el mensaje es la descripción:
 
 ```bash
-git tag -a v1.0 -m "Entrega TP4"
+git tag -a v1.0 -m "Linea Base Mes 1 (Dia 30)"
 git push origin v1.0
+
 ```
 
 ---
@@ -183,6 +190,8 @@ git push origin v1.0
 ## 7. Herramientas
 
 | Herramienta | Uso |
-| ----------- | --- |
+| --- | --- |
 | Git | Motor de control de versiones. |
 | GitHub | Repositorio remoto de acceso público para los integrantes y la cátedra. |
+
+---
