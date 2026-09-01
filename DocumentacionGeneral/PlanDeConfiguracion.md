@@ -116,7 +116,7 @@ La ubicación forma parte de la identificación del IC. Cada archivo debe almace
 | --- | --- | --- |
 | Reglas de Juego | `RDJ_<NombreDocumento>.<ext>` | `/ReglasDeJuego` |
 | Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
-| Presentación de Clase | `PC_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
+| Presentación de Clase | `PC_<n>_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
 | Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
 | Resumen | `R_<Tema>.<ext>` | `/Resumenes` |
 | Documentación de configuración | Nombre descriptivo | `/DocumentacionGeneral` |
