@@ -153,7 +153,7 @@ No se versionan archivos derivados ni dependencias descargables (por ejemplo `no
 
 ## 5. Criterio para establecer una Línea Base
 
-Se establece una **Línea Base (LB)** de manera periódica **cada 30 días** a lo largo del cursado. La Línea Base está compuesta por la totalidad de la documentación, código y demás Ítems de Configuración consolidados y estables en el repositorio hasta esa fecha.
+Se establece una **Línea Base (LB)** de manera periódica **cada 30 días** a lo largo del cursado, tomando como fecha inicial el 1 de septiembre de 2026. La Línea Base está compuesta por la totalidad de la documentación, código y demás Ítems de Configuración consolidados y estables en el repositorio hasta esa fecha.
 
 La Línea Base representa un estado formal y de referencia del repositorio. Una vez marcada no se modifica: los cambios posteriores se registran mediante nuevos commits y se integrarán en la siguiente Línea Base programada.
 
