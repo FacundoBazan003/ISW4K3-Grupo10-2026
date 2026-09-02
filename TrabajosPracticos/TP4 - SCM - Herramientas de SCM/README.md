@@ -24,4 +24,4 @@ dado que aplican a la totalidad del repositorio y no únicamente a este TP.
 
 ## Estado de la entrega
 
-En curso.
+Entregado (01/09/2026).
