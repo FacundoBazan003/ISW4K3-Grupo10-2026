@@ -19,7 +19,7 @@ ISW4K3-Grupo10-2026/
 │   └── RDJ_MaterialDeApoyo.pdf
 │
 ├── Resumenes/
-│   └── README.md                     # Índice de resúmenes
+│   └── .gitkeep                      # Marcador de carpeta (aún sin resúmenes)
 │
 ├── TrabajosPracticos/
 │   ├── TP1 - <NombreTP>/
@@ -76,4 +76,4 @@ Cada carpeta de TP contiene como mínimo:
 
 Cada archivo debe almacenarse en la carpeta que corresponda según su tipo y finalidad. **La ubicación forma parte de la identificación del Ítem de Configuración** y debe mantenerse consistente durante todo el cursado.
 
-Las carpetas que aún no contienen archivos mantienen un `README.md` o un `.gitkeep` para preservar la estructura, dado que Git no versiona carpetas vacías.
+Las carpetas que aún no contienen archivos mantienen un `.gitkeep` para preservar la estructura, dado que Git no versiona carpetas vacías. Ese marcador se elimina cuando la carpeta recibe su primer archivo real.
