@@ -26,7 +26,10 @@ ISW4K3-Grupo10-2026/
 │   │   ├── README.md
 │   │   ├── links.md
 │   │   └── TP1_<NombreTP>_<Tipo>.<ext>
-│   ├── TP2 - <NombreTP>/
+│   ├── TP2 - Requerimientos Agiles - User Stories y Estimaciones/
+│   │   ├── README.md
+│   │   ├── links.md
+│   │   └── TP2_UserStoriesYEstimaciones_Enunciado.pdf
 │   ├── TP3 - <NombreTP>/
 │   └── TP4 - SCM - Herramientas de SCM/
 │       ├── README.md
