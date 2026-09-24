@@ -63,7 +63,7 @@ ISW4K3-Grupo10-2026/
         ├── PC_01_IntroduccionALaIngenieriaDeSoftware.pdf
         ├── PC_02_GestionDeConfiguracionDeSoftware.pdf
         ├── PC_03_ManifiestoAgil.pdf
-        ├── PC_04_EstimacionesÁgiles.pdf
+        ├── PC_04_EstimacionesAgiles.pdf
         ├── PC_05_GestionDeProductos.pdf
         ├── PC_06_ComponentesDeProyectoSW.pdf
         ├── PC_07_EstimacionesDeSoftware.pdf

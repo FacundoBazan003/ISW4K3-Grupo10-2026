@@ -3,7 +3,7 @@
 ## Documentación interna referenciada
 
 - [Presentación de Clase 03 - Manifiesto Ágil](../../Teorico/Presentaciones/PC_03_ManifiestoAgil.pdf)
-- [Presentación de Clase 04 - Estimaciones Ágiles](../../Teorico/Presentaciones/PC_04_EstimacionesÁgiles.pdf)
+- [Presentación de Clase 04 - Estimaciones Ágiles](../../Teorico/Presentaciones/PC_04_EstimacionesAgiles.pdf)
 
 ## Bibliografía sugerida por la cátedra
 
