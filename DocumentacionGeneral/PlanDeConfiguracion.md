@@ -16,7 +16,7 @@ Se definen los siguientes tipos:
 | MB | Material Bibliográfico | Documentos bibliográficos utilizados como material de estudio, clasificados por temática. |
 | PC | Presentación de Clase | Presentaciones utilizadas o provistas durante las clases teóricas. |
 | TP | Trabajo Práctico | Archivos asociados a cada Trabajo Práctico: enunciado, informe, código u otros entregables. |
-| R | Resumen | Resúmenes elaborados por el grupo sobre las unidades o temas de la materia. |
+| R | Resumen | Resúmenes elaborados de manera individual sobre las unidades o temas de la materia. |
 
 Los archivos de documentación propia del repositorio (`README.md`, `Glosario.md`, `EstructuraRepositorio.md`, este mismo documento) se nombran de forma descriptiva y se ubican en `DocumentacionGeneral/`.
 
@@ -104,7 +104,7 @@ Ejemplo:
 
 * `R_GestionDeConfiguracionDeSoftware.pdf`
 
-El objetivo de la regla es que el nombre permita identificar el tipo y el contenido del archivo sin necesidad de abrirlo.
+Resúmenes de estudio elaborados de manera individual o grupal sobre las unidades o temas de la materia.
 
 ---
 
@@ -118,7 +118,7 @@ La ubicación forma parte de la identificación del IC. Cada archivo debe almace
 | Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
 | Presentación de Clase | `PC_<n>_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
 | Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
-| Resumen | `R_<Tema>.<ext>` | `/Resumenes` |
+| Resumen | `R_<Tema>.<ext>` | `/Resumenes/<ApellidoNombre>` |
 | Documentación de configuración | Nombre descriptivo | `/DocumentacionGeneral` |
 
 Las temáticas admitidas para la bibliografía son: `ISW`, `PA`, `SCM`, `TS`, `LeanKanban`.
