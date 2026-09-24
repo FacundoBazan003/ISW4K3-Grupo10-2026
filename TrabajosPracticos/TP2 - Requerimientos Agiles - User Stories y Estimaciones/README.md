@@ -26,6 +26,7 @@ La salida exigida por la consigna comprende:
 | Archivo | Descripción |
 | --- | --- |
 | `TP2_UserStoriesYEstimaciones_Enunciado.pdf` | Enunciado del trabajo práctico provisto por la cátedra. |
+| `TP2_UserStoriesYEstimaciones_Informe.pdf` | Informe elaborado por el grupo con la resolución del trabajo práctico. |
 | `links.md` | Enlaces externos relacionados con el trabajo. |
 
 ## Estado de la entrega
