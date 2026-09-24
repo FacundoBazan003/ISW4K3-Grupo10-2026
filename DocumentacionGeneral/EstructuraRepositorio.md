@@ -19,7 +19,8 @@ ISW4K3-Grupo10-2026/
 │   └── RDJ_MaterialDeApoyo.pdf
 │
 ├── Resumenes/
-│   └── .gitkeep                      # Marcador de carpeta (aún sin resúmenes)
+│   └── <ApellidoNombre>/             # Una carpeta por alumno
+│       └── R_<Tema>.<ext>            # Ej.: ArrigoniMicaela/R_Unidad1.pdf
 │
 ├── TrabajosPracticos/
 │   ├── TP1 - <NombreTP>/
@@ -29,23 +30,44 @@ ISW4K3-Grupo10-2026/
 │   ├── TP2 - Requerimientos Agiles - User Stories y Estimaciones/
 │   │   ├── README.md
 │   │   ├── links.md
-│   │   └── TP2_UserStoriesYEstimaciones_Enunciado.pdf
-│   ├── TP3 - <NombreTP>/
-│   └── TP4 - SCM - Herramientas de SCM/
+│   │   ├── TP2_UserStoriesYEstimaciones_Enunciado.pdf
+│   │   └── TP2_UserStoriesYEstimaciones_Informe.pdf
+│   ├── TP3 - Requerimientos Agiles - User Stories y Estimaciones y MVP/
+│   │   ├── README.md
+│   │   ├── links.md
+│   │   ├── TP3_UserStoriesYEstimacionesYMVP_Enunciado.pdf
+│   │   └── TP3_UserStoriesYEstimacionesYMVP_Informe.pdf
+│   ├── TP4 - SCM - Herramientas de SCM/
+│   │   ├── README.md
+│   │   ├── links.md
+│   │   └── TP4_HerramientasSCM_Enunciado.pdf
+│   └── TP7 - Dinamica scrum/
 │       ├── README.md
 │       ├── links.md
-│       └── TP4_HerramientasSCM_Enunciado.pdf
+│       ├── TP7_DinamicaScrum_Enunciado.pdf
+│       └── TP7_EvidenciaTrabajoEnClase.pdf
 │
 └── Teorico/
     ├── Bibliografia/
     │   ├── ISW/                      # Ingeniería de Software
+    │   │   ├── MB_IngenieriaDeSoftware_Sommerville.pdf
+    │   │   └── MB_IngenieriaDelSoftwareUnEnfoquePractico_Pressman.pdf
     │   ├── PA/                       # Pensamiento Ágil
     │   ├── SCM/                      # Gestión de Configuración de Software
+    │   │   ├── MB_AgileSCM_Berczuk.pdf
+    │   │   ├── MB_ElementsOfSoftwareConfigurationManagement_Bersoff.pdf
+    │   │   └── MB_LittleBookOfConfigurationManagement_AirlieSoftwareCouncil.pdf
     │   ├── TS/                       # Testing de Software
     │   └── LeanKanban/               # Lean y Kanban
     └── Presentaciones/
         ├── PC_01_IntroduccionALaIngenieriaDeSoftware.pdf
-        └── PC_02_GestionDeConfiguracionDeSoftware.pdf
+        ├── PC_02_GestionDeConfiguracionDeSoftware.pdf
+        ├── PC_03_ManifiestoAgil.pdf
+        ├── PC_04_EstimacionesÁgiles.pdf
+        ├── PC_05_GestionDeProductos.pdf
+        ├── PC_06_ComponentesDeProyectoSW.pdf
+        ├── PC_07_EstimacionesDeSoftware.pdf
+        └── PC_08_ScrumPlanificacionDeReleaseYSprintMetricasScrum.pdf
 ```
 
 ## Descripción de las carpetas
@@ -54,7 +76,7 @@ ISW4K3-Grupo10-2026/
 | ------- | --------- |
 | `DocumentacionGeneral/` | Documentación que define cómo se organiza y administra el repositorio: estructura, glosario y plan de configuración. |
 | `ReglasDeJuego/` | Material provisto por la cátedra que establece las pautas de cursado: programa, presentación de la materia y material de apoyo. |
-| `Resumenes/` | Resúmenes elaborados por el grupo para las distintas unidades o temas de la materia. |
+| `Resumenes/` | Resúmenes individuales de las distintas unidades o temas de la materia, en una subcarpeta por alumno (`<ApellidoNombre>/`). |
 | `TrabajosPracticos/` | Trabajos Prácticos. Cada TP se almacena en una carpeta propia junto con su README, sus enlaces, el enunciado y los entregables asociados. |
 | `Teorico/Bibliografia/` | Material bibliográfico clasificado por temática. |
 | `Teorico/Presentaciones/` | Presentaciones utilizadas durante las clases teóricas. |
