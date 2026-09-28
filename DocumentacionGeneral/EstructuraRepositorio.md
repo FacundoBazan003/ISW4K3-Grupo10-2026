@@ -67,7 +67,8 @@ ISW4K3-Grupo10-2026/
         ├── PC_05_GestionDeProductos.pdf
         ├── PC_06_ComponentesDeProyectoSW.pdf
         ├── PC_07_EstimacionesDeSoftware.pdf
-        └── PC_08_ScrumPlanificacionDeReleaseYSprintMetricasScrum.pdf
+        ├── PC_08_ScrumPlanificacionDeReleaseYSprintMetricasScrum.pdf
+        └── PC_09_TestingDeSoftware.pdf
 ```
 
 ## Descripción de las carpetas
