@@ -25,7 +25,7 @@ Durante la dinámica se ponen en práctica:
 | Archivo | Descripción |
 | --- | --- |
 | `TP7_DinamicaScrum_Enunciado.pdf` | Enunciado del trabajo práctico provisto por la cátedra. |
-| `TP7_EvidenciaTrabajoEnClase.pdf` | Fotos del trabajo realizado por el grupo durante la dinámica en clase. |
+| `TP7_DinamicaScrum_Anexo.pdf` | Fotos del trabajo realizado por el grupo durante la dinámica en clase. |
 | `links.md` | Enlaces externos relacionados con el trabajo. |
 
 ## Estado de la entrega
