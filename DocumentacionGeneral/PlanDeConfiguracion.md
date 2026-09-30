@@ -4,27 +4,34 @@ Este documento establece los criterios utilizados para identificar, nombrar, ubi
 
 ---
 
-## 1. Ítems de Configuración
+## 1. Identificación de Ítems de Configuración
 
 Se considera **Ítem de Configuración (IC)** a todo elemento del repositorio que debe ser identificado, almacenado y controlado durante el cursado.
 
-Se definen los siguientes tipos:
+De acuerdo con la clasificación utilizada por la cátedra, los IC pueden corresponder al **Producto**, al **Proyecto** o a una **Iteración**. En este repositorio, cada Trabajo Práctico se considera una iteración de trabajo: su enunciado y su documentación organizativa pertenecen a la Iteración, mientras que los resultados elaborados por el grupo pertenecen al Producto. Los documentos y materiales que sirven de soporte durante todo el cursado pertenecen al Proyecto.
 
-| Sigla | Ítem de Configuración | Descripción |
-| --- | --- | --- |
-| RDJ | Reglas de Juego | Documentos provistos por la cátedra que establecen las pautas de cursado: programa, presentación de la materia, material de apoyo. |
-| MB | Material Bibliográfico | Documentos bibliográficos utilizados como material de estudio, clasificados por temática. |
-| PC | Presentación de Clase | Presentaciones utilizadas o provistas durante las clases teóricas. |
-| TP | Trabajo Práctico | Archivos asociados a cada Trabajo Práctico: enunciado, informe, código u otros entregables. |
-| R | Resumen | Resúmenes elaborados de manera individual sobre las unidades o temas de la materia. |
+| Sigla | Ítem de Configuración | Tipo | Ubicación |
+| --- | --- | --- | --- |
+| DOC | `README.md` general del repositorio | Proyecto | `/` |
+| DOC | Plan de Configuración | Proyecto | `/DocumentacionGeneral` |
+| DOC | Estructura del Repositorio | Proyecto | `/DocumentacionGeneral` |
+| DOC | Glosario | Proyecto | `/DocumentacionGeneral` |
+| CFG | Configuración técnica de Git y del repositorio (`.gitignore`, `.gitattributes` y equivalentes) | Proyecto | `/` o carpeta del TP cuando la configuración sea específica |
+| RDJ | Reglas de Juego provistas por la cátedra | Proyecto | `/ReglasDeJuego` |
+| MB | Material Bibliográfico | Proyecto | `/Teorico/Bibliografia/<Tematica>` |
+| PC | Presentación de Clase | Proyecto | `/Teorico/Presentaciones` |
+| TP | Enunciado del Trabajo Práctico | Iteración | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| TP | `README.md` y `links.md` del Trabajo Práctico | Iteración | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| TP | Informe, código, anexos y demás entregables elaborados por el grupo | Producto | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| R | Resumen elaborado individualmente por cada alumno como material de apoyo | Proyecto | `/Resumenes/<ApellidoNombre>` |
 
-Los archivos de documentación propia del repositorio (`README.md`, `Glosario.md`, `EstructuraRepositorio.md`, este mismo documento) se nombran de forma descriptiva y se ubican en `DocumentacionGeneral/`.
+La tabla identifica clases de IC y no cada instancia concreta incorporada al repositorio. Por eso no necesita actualizarse cada vez que se agrega un nuevo archivo de una clase ya definida. Las carpetas solo establecen la ubicación de los IC y no se consideran IC. Los marcadores `.gitkeep` preservan carpetas vacías en Git y tampoco se consideran IC.
 
 ---
 
 ## 2. Regla de nombrado
 
-Los nombres se construyen con una sigla que identifica el tipo de IC, separando los componentes con guion bajo (`_`) y utilizando notación *PascalCase* sin espacios ni acentos.
+Los nombres se construyen con una sigla que identifica la clase de IC, separando los componentes con guion bajo (`_`) y utilizando notación *PascalCase* sin espacios ni acentos.
 
 ### Reglas de Juego
 
@@ -62,8 +69,8 @@ PC_<n>_<NombrePresentacion>.<ext>
 Donde:
 
 * `PC` identifica que se trata de una Presentación de Clase.
-* `<n>` es el número de la presentacion.
-* `<NombrePresentacion>` identifica el tema de la presentacion.
+* `<n>` es el número de la presentación.
+* `<NombrePresentacion>` identifica el tema de la presentación.
 * `<ext>` es la extensión del archivo.
 
 Ejemplos:
@@ -104,7 +111,21 @@ Ejemplo:
 
 * `R_GestionDeConfiguracionDeSoftware.pdf`
 
-Resúmenes de estudio elaborados de manera individual o grupal sobre las unidades o temas de la materia.
+Cada alumno almacena sus resúmenes en una subcarpeta propia identificada con el formato `<ApellidoNombre>`.
+
+El objetivo de la regla es que el nombre permita identificar el tipo y el contenido del archivo sin necesidad de abrirlo.
+
+### Documentación y configuración del repositorio
+
+Los archivos DOC y CFG conservan sus nombres descriptivos o técnicos (`README.md`, `EstructuraRepositorio.md`, `.gitignore`, etc.) porque son nombres convencionales y su ubicación permite identificarlos de manera unívoca.
+
+### Documentación propia de los Trabajos Prácticos
+
+Cada carpeta de Trabajo Práctico contiene un archivo `README.md`. Su finalidad es identificar y describir el TP, detallar el contenido de la carpeta e indicar el estado de la entrega o cualquier instrucción necesaria para utilizar sus archivos.
+
+Cuando un Trabajo Práctico requiera referencias, también puede incluir un archivo `links.md`. Este archivo contiene enlaces internos o externos, una breve descripción de cada recurso y su relación con el TP. Su finalidad es centralizar las referencias necesarias para consultar documentación almacenada dentro o fuera del repositorio.
+
+Tanto `README.md` como `links.md` se consideran IC asociados a la Iteración y se ubican dentro de la carpeta del Trabajo Práctico correspondiente. `README.md` se incluye en todos los TP; `links.md` solo se crea cuando existen referencias que registrar. Los archivos `links.md` existentes se conservan mientras contengan referencias útiles.
 
 ---
 
@@ -114,14 +135,15 @@ La ubicación forma parte de la identificación del IC. Cada archivo debe almace
 
 | Ítem de Configuración | Regla de nombrado | Ubicación |
 | --- | --- | --- |
+| Documentación del Repositorio | Nombre descriptivo | `/` o `/DocumentacionGeneral` |
+| Configuración Técnica | Nombre técnico convencional | `/` o carpeta del TP cuando corresponda |
 | Reglas de Juego | `RDJ_<NombreDocumento>.<ext>` | `/ReglasDeJuego` |
 | Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
 | Presentación de Clase | `PC_<n>_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
-| Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>`, `README.md` o `links.md` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
 | Resumen | `R_<Tema>.<ext>` | `/Resumenes/<ApellidoNombre>` |
-| Documentación de configuración | Nombre descriptivo | `/DocumentacionGeneral` |
 
-Las temáticas admitidas para la bibliografía son: `ISW`, `PA`, `SCM`, `TS`, `LeanKanban`.
+Cada temática de bibliografía se incorpora en una subcarpeta propia, aplicando el patrón genérico `<Tematica>` definido en la estructura del repositorio.
 
 La estructura completa se documenta en [`EstructuraRepositorio.md`](EstructuraRepositorio.md).
 

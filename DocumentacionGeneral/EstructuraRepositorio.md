@@ -6,70 +6,19 @@ El repositorio se organiza de forma jerárquica para facilitar la identificació
 
 ```text
 ISW4K3-Grupo10-2026/
-├── README.md
-│
 ├── DocumentacionGeneral/
-│   ├── EstructuraRepositorio.md      # Este archivo
-│   ├── Glosario.md                   # Siglas y términos utilizados
-│   └── PlanDeConfiguracion.md        # ICs, reglas de nombrado y líneas base
-│
 ├── ReglasDeJuego/
-│   ├── RDJ_Programa.pdf
-│   ├── RDJ_PresentacionDeLaMateria.pdf
-│   └── RDJ_MaterialDeApoyo.pdf
-│
 ├── Resumenes/
-│   └── <ApellidoNombre>/             # Una carpeta por alumno
-│       └── R_<Tema>.<ext>            # Ej.: ArrigoniMicaela/R_Unidad1.pdf
-│
+│   └── <ApellidoNombre>/
 ├── TrabajosPracticos/
-│   ├── TP1 - <NombreTP>/
-│   │   ├── README.md
-│   │   ├── links.md
-│   │   └── TP1_<NombreTP>_<Tipo>.<ext>
-│   ├── TP2 - Requerimientos Agiles - User Stories y Estimaciones/
-│   │   ├── README.md
-│   │   ├── links.md
-│   │   ├── TP2_UserStoriesYEstimaciones_Enunciado.pdf
-│   │   └── TP2_UserStoriesYEstimaciones_Informe.pdf
-│   ├── TP3 - Requerimientos Agiles - User Stories y Estimaciones y MVP/
-│   │   ├── README.md
-│   │   ├── links.md
-│   │   ├── TP3_UserStoriesYEstimacionesYMVP_Enunciado.pdf
-│   │   └── TP3_UserStoriesYEstimacionesYMVP_Informe.pdf
-│   ├── TP4 - SCM - Herramientas de SCM/
-│   │   ├── README.md
-│   │   ├── links.md
-│   │   └── TP4_HerramientasSCM_Enunciado.pdf
-│   └── TP7 - Dinamica scrum/
-│       ├── README.md
-│       ├── links.md
-│       ├── TP7_DinamicaScrum_Enunciado.pdf
-│       └── TP7_EvidenciaTrabajoEnClase.pdf
-│
+│   └── TP<x> - <NombreTP>/
 └── Teorico/
     ├── Bibliografia/
-    │   ├── ISW/                      # Ingeniería de Software
-    │   │   ├── MB_IngenieriaDeSoftware_Sommerville.pdf
-    │   │   └── MB_IngenieriaDelSoftwareUnEnfoquePractico_Pressman.pdf
-    │   ├── PA/                       # Pensamiento Ágil
-    │   ├── SCM/                      # Gestión de Configuración de Software
-    │   │   ├── MB_AgileSCM_Berczuk.pdf
-    │   │   ├── MB_ElementsOfSoftwareConfigurationManagement_Bersoff.pdf
-    │   │   └── MB_LittleBookOfConfigurationManagement_AirlieSoftwareCouncil.pdf
-    │   ├── TS/                       # Testing de Software
-    │   └── LeanKanban/               # Lean y Kanban
+    │   └── <Tematica>/
     └── Presentaciones/
-        ├── PC_01_IntroduccionALaIngenieriaDeSoftware.pdf
-        ├── PC_02_GestionDeConfiguracionDeSoftware.pdf
-        ├── PC_03_ManifiestoAgil.pdf
-        ├── PC_04_EstimacionesAgiles.pdf
-        ├── PC_05_GestionDeProductos.pdf
-        ├── PC_06_ComponentesDeProyectoSW.pdf
-        ├── PC_07_EstimacionesDeSoftware.pdf
-        ├── PC_08_ScrumPlanificacionDeReleaseYSprintMetricasScrum.pdf
-        └── PC_09_TestingDeSoftware.pdf
 ```
+
+El árbol representa únicamente carpetas. Los archivos que se incorporen se identifican y ubican según las reglas definidas en [`PlanDeConfiguracion.md`](PlanDeConfiguracion.md).
 
 ## Descripción de las carpetas
 
@@ -77,8 +26,8 @@ ISW4K3-Grupo10-2026/
 | ------- | --------- |
 | `DocumentacionGeneral/` | Documentación que define cómo se organiza y administra el repositorio: estructura, glosario y plan de configuración. |
 | `ReglasDeJuego/` | Material provisto por la cátedra que establece las pautas de cursado: programa, presentación de la materia y material de apoyo. |
-| `Resumenes/` | Resúmenes individuales de las distintas unidades o temas de la materia, en una subcarpeta por alumno (`<ApellidoNombre>/`). |
-| `TrabajosPracticos/` | Trabajos Prácticos. Cada TP se almacena en una carpeta propia junto con su README, sus enlaces, el enunciado y los entregables asociados. |
+| `Resumenes/` | Resúmenes elaborados individualmente para las distintas unidades o temas de la materia, organizados en una subcarpeta por alumno (`<ApellidoNombre>/`). |
+| `TrabajosPracticos/` | Trabajos Prácticos. Cada TP se almacena en una carpeta propia junto con su `README.md`, el enunciado, los entregables asociados y, cuando corresponda, un archivo `links.md`. |
 | `Teorico/Bibliografia/` | Material bibliográfico clasificado por temática. |
 | `Teorico/Presentaciones/` | Presentaciones utilizadas durante las clases teóricas. |
 
@@ -92,11 +41,17 @@ TP<x> - <NombreTP>/
 
 Ejemplo: `TP4 - SCM - Herramientas de SCM/`
 
-Cada carpeta de TP contiene como mínimo:
+La forma genérica permite incorporar cualquier cantidad de Trabajos Prácticos sin modificar la estructura definida.
 
-* `README.md` — descripción del trabajo, contenido de la carpeta y estado de la entrega.
-* `links.md` — enlaces externos relacionados con el trabajo.
-* Los entregables, nombrados según la regla definida en [`PlanDeConfiguracion.md`](PlanDeConfiguracion.md).
+## Convención de carpetas temáticas
+
+El material bibliográfico se clasifica en subcarpetas temáticas con el formato:
+
+```
+<Tematica>/
+```
+
+Las nuevas temáticas se agregan con la misma regla. Las presentaciones se incorporan en su carpeta correspondiente y cada resumen se almacena en `/Resumenes/<ApellidoNombre>`, según las reglas de nombrado del Plan de Configuración.
 
 ## Criterio de ubicación
 
