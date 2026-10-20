@@ -31,7 +31,27 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   });
 
   it("permite inscripciones con vestimenta usando un talle permitido", () => {
-    // Probar inscripción válida a 'Palestra' o 'Tirolesa' con talle 'M'
+    // Arrange: Solicitud válida para Palestra con talle permitido ('M') y edad apta (16 años)
+    const solicitud = {
+      actividad: "Palestra",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          dni: "35987654",
+          edad: 16,
+          nombre: "Ana Gómez",
+          talla: "M",
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud as any);
+
+    // Assert
+    assert.strictEqual(resultado.exito, true);
+    assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
   it("permite omitir el nombre de un participante", () => {
