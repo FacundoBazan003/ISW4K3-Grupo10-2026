@@ -67,22 +67,7 @@ export function inscribirActividad(
   );
 
   validarHorarioActividad(solicitud.horario);
-  const reglasCierre = crearReglasCierreParqueMock();
-  const fechaEnParque = new Intl.DateTimeFormat("es-AR", {
-    timeZone: "America/Argentina/Buenos_Aires",
-    day: "numeric",
-    month: "numeric",
-  }).formatToParts(new Date(solicitud.horario));
-  const diaTurno = Number(fechaEnParque.find((parte) => parte.type === "day")?.value);
-  const mesTurno = Number(fechaEnParque.find((parte) => parte.type === "month")?.value);
-
-  if (
-    reglasCierre.diasMesCerrados.some(
-      (feriado) => feriado.dia === diaTurno && feriado.mes === mesTurno
-    )
-  ) {
-    throw new InscripcionRechazadaError("PARQUE_CERRADO");
-  }
+  validarFeriados(solicitud.horario);
 
   const inscripciones = contexto.inscripciones ?? [];
 
@@ -269,6 +254,25 @@ function validarCierreSemanal(horario: string): void {
   const diaTurno = DIAS_SEMANA[fechaTurno.getDay()];
 
   if (reglasCierre.diasCerrados.includes(diaTurno)) {
+    throw new InscripcionRechazadaError("PARQUE_CERRADO");
+  }
+}
+
+function validarFeriados(horario: string): void {
+  const reglasCierre = crearReglasCierreParqueMock();
+  const fechaEnParque = new Intl.DateTimeFormat("es-AR", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    day: "numeric",
+    month: "numeric",
+  }).formatToParts(new Date(horario));
+  const diaTurno = Number(fechaEnParque.find((parte) => parte.type === "day")?.value);
+  const mesTurno = Number(fechaEnParque.find((parte) => parte.type === "month")?.value);
+
+  if (
+    reglasCierre.diasMesCerrados.some(
+      (feriado) => feriado.dia === diaTurno && feriado.mes === mesTurno
+    )
+  ) {
     throw new InscripcionRechazadaError("PARQUE_CERRADO");
   }
 }
