@@ -556,8 +556,32 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("rechaza turnos fuera del horario de actividades", () => {
-    // Turnos fuera de la franja de 09:00 a 17:00 (ej. 08:00 o 18:00)
+  it("rechaza turnos fuera del horario de actividades", (t) => {
+    // Precondiciones: reloj fijo y un turno a las 18:00, fuera de la franja de 09:00 a 17:00
+    const ahora = new Date("2026-10-20T17:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T18:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "HORARIO_NO_DISPONIBLE",
+      "Debe rechazar un turno posterior al último horario de actividades"
+    );
   });
 
   it("rechaza turnos que no comienzan en punto", () => {
