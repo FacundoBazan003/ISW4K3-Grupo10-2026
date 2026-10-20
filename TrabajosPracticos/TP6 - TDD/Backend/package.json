@@ -6,10 +6,7 @@
     "build": "tsc",
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
-    "test": "tsx --test test/*.test.ts",
-    "test:dominio": "tsx --test test/inscripciones.test.ts",
-    "test:api": "tsx --test test/api.test.ts",
-    "test:sqlite": "tsx --test test/sqlite.test.ts",
+    "test": "tsx --test test/inscripciones.test.ts",
     "db:ver": "tsx src/ver-bd.ts"
   },
   "dependencies": {

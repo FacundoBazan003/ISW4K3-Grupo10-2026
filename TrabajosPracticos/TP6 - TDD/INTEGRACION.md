@@ -57,9 +57,9 @@ La fecha y la hora del turno corresponden a Argentina (UTC-3). Una respuesta exi
 
 El frontend original ya impedía feriados, turnos fuera de horario, reservas tardías y DNI simultáneos. La API conserva las restricciones que aún no desarrolla el dominio. Las reservas simultáneas existentes ahora se validan en `inscribirActividad`, utilizando los registros cargados de SQLite; la API solo mantiene el control adicional de DNI repetidos dentro del mismo grupo. El esquema del formulario coincide con la rama remota del frontend; se conservan la fecha inicial y el comportamiento de los términos al cambiar de actividad.
 
-**Límite de 15 minutos resuelto por decisión del usuario:** exactamente 15 minutos antes se rechaza, igual que con menos de 15 minutos; para reservar deben faltar más de 15 minutos. La consulta de disponibilidad y el registro del dominio comparten ese comportamiento. El test HTTP existente comprueba ambos a un milisegundo antes del corte, en el instante exacto y a un milisegundo después, incluyendo que los rechazos no registren inscripciones. Ya no queda un TODO por este límite.
+**Límite de 15 minutos resuelto por decisión del usuario:** exactamente 15 minutos antes se rechaza, igual que con menos de 15 minutos; para reservar deben faltar más de 15 minutos. La consulta de disponibilidad y el registro del dominio comparten ese comportamiento.
 
-Los controles de compatibilidad se prueban en `test/api.test.ts`. Los tests pendientes del dominio pueden continuar por separado en `main`. Cuando se implementen más reglas allí, se deberá unificar esta capa para evitar duplicar validaciones.
+Los tests pendientes del dominio pueden continuar por separado en `main`. Cuando se implementen más reglas allí, se deberá unificar esta capa para evitar duplicar validaciones.
 
 ## Verificación automatizada
 
@@ -70,7 +70,7 @@ npm test
 npm run build
 ```
 
-`npm test` incluye 28 casos del dominio, 11 tests HTTP de integración y 8 tests de SQLite: 47 en total, sin TODO por el límite de 15 minutos. Dos casos del dominio siguen vacíos y no representan comprobaciones reales. `npm run test:dominio`, `npm run test:api` y `npm run test:sqlite` permiten ejecutarlos por separado. Las pruebas HTTP abren puertos temporales de localhost; las pruebas de persistencia utilizan archivos de prueba temporales y no modifican la base de la demo.
+`npm test` ejecuta únicamente los 28 casos originales de `test/inscripciones.test.ts`. Dos casos siguen vacíos y no representan comprobaciones reales. Por decisión del usuario se retiraron las pruebas adicionales de API, SQLite y frontend, junto con sus comandos y el ejecutor de tests del frontend. La integración se puede comprobar siguiendo los pasos manuales y usando `npm run db:ver`.
 
 ## Consultar la base de datos
 
@@ -101,12 +101,11 @@ En ese caso, abrir `http://127.0.0.1:5181`. Para volver a los puertos predetermi
 Desde `frontend`:
 
 ```powershell
-pnpm test
 pnpm build
 pnpm lint
 ```
 
-Los 8 tests del cliente cubren el contrato HTTP, términos, confirmación recibida del backend, cupos del servidor, errores sin éxito simulado, las validaciones originales de nombre obligatorio, DNI, edades, vestimenta y reglas de calendario recibidas de la API. Lint conserva una advertencia previa de React Hook Form por `watch()`; no impide la compilación.
+Lint conserva una advertencia previa de React Hook Form por `watch()`; no impide la compilación.
 
 ## Prueba manual repetible
 
@@ -118,4 +117,4 @@ Los 8 tests del cliente cubren el contrato HTTP, términos, confirmación recibi
 6. Cambiar a otro turno habilitado y confirmar: debe permitirse la reserva.
 7. Comprobar que los lunes aparecen deshabilitados y que los turnos fuera de la ventana no se pueden elegir.
 
-Los tests HTTP también comprueban edades mínimas, talle omitido/inválido, grupos completos, solicitudes concurrentes sin sobreventa, feriados, el límite exacto de 24 horas, fechas inválidas y errores JSON. Los tests de SQLite verifican la persistencia al cerrar y reabrir, el reinicio de la API, la consulta desde dos conexiones y el rollback completo si falla la inscripción o un participante.
+Para comprobar la persistencia, ejecutar `npm run db:ver` antes y después de una inscripción y consultar nuevamente tras reiniciar el backend.
