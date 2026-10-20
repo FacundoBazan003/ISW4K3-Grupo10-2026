@@ -1,0 +1,8 @@
+{
+    "tailwindCSS.experimental.configFile": {
+        "TrabajosPracticos/TP6 - TDD/frontend/src/index.css": "TrabajosPracticos/TP6 - TDD/frontend/src/**"
+    },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    }
+}
