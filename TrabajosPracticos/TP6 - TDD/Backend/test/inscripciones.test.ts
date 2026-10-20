@@ -66,8 +66,30 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
-  it("permite reservar exactamente 24 horas antes del turno", () => {
-    // Límite superior de anticipación permitida
+  it("permite reservar exactamente 24 horas antes del turno", (t) => {
+    // Arrange: el turno empieza exactamente 24 horas después.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-21T10:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud);
+
+    // Assert: el límite de 24 horas está incluido.
+    assert.strictEqual(resultado.exito, true);
+    assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
   it("permite reservar actividades en distintos turnos", (t) => {
