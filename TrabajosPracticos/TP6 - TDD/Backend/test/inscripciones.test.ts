@@ -496,8 +496,45 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("rechaza inscripciones en feriados", () => {
-    // Turno correspondiente a 25 de diciembre o 1 de enero
+  it("rechaza inscripciones en feriados", (t) => {
+    // Arrange: reservamos 23 horas antes de cada feriado, ambos viernes.
+    const feriados = [
+      {
+        ahora: "2026-12-24T10:00:00-03:00",
+        horario: "2026-12-25T09:00:00-03:00",
+      },
+      {
+        ahora: "2026-12-31T10:00:00-03:00",
+        horario: "2027-01-01T09:00:00-03:00",
+      },
+    ];
+
+    for (const feriado of feriados) {
+      const ahora = new Date(feriado.ahora);
+      t.mock.method(Date, "now", () => ahora.getTime());
+
+      const solicitud = {
+        actividad: "Safari",
+        horario: feriado.horario,
+        participantes: [
+          {
+            nombre: "Juan Pérez",
+            dni: "12345678",
+            edad: 25,
+          },
+        ],
+        aceptaTerminos: true,
+      };
+
+      // Act y Assert
+      assert.throws(
+        () => inscribirActividad(solicitud),
+        (error: unknown) =>
+          error instanceof InscripcionRechazadaError &&
+          error.motivo === "PARQUE_CERRADO",
+        `Debe rechazar la inscripción en el feriado ${feriado.horario}`,
+      );
+    }
   });
 
   // =========================================================================
