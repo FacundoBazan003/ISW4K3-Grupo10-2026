@@ -33,8 +33,8 @@ const INITIAL_MOCK_RESERVATIONS: Reservation[] = [
             edad: 25,
             talle: "M",
         })),
-        titularNombre: "Federico Nieto",
-        titularEmail: "federiconieto04@gmail.com",
+        titularNombre: "Visitante Ejemplo",
+        titularEmail: "visitante@ejemplo.com",
         createdAt: new Date().toISOString(),
     },
     // Simulación de un participante con DNI 40123456 ya inscripto en Safari a las 14:00

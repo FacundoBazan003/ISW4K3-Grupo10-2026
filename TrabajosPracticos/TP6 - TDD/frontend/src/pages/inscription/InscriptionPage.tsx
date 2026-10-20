@@ -3,7 +3,6 @@ import { useSearchParams, Link } from "react-router";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/authStore";
-import { userMock } from "@/mocks/users.mocks";
 import {
     useActivities,
     useSlotsAvailability,
@@ -27,8 +26,7 @@ export default function InscriptionPage() {
     const queryActivity = searchParams.get("activity") as ActivityId | null;
 
     const { user } = useAuthStore();
-    // Si no hay usuario logueado en store, usar el mock predeterminado (FAQ 19)
-    const activeUser = user ?? userMock[0];
+    const activeUser = user ?? { name: "Visitante", email: "", id: "" };
 
     const { data: activities = [], isLoading: isLoadingActivities } = useActivities();
     const [confirmedReservation, setConfirmedReservation] = useState<Reservation | null>(null);
@@ -81,6 +79,7 @@ export default function InscriptionPage() {
     const {
         data: availableSlots = [],
         isLoading: isLoadingSlots,
+        isFetching: isFetchingSlots,
     } = useSlotsAvailability(selectedActivityId, selectedFecha);
 
     const { mutate: createReservation, isPending: isSubmitting } = useCreateReservation();
@@ -200,7 +199,7 @@ export default function InscriptionPage() {
                                     onSelectHorario={(h) =>
                                         setValue("horario", h, { shouldValidate: true })
                                     }
-                                    isLoading={isLoadingSlots}
+                                    isLoading={isLoadingSlots || isFetchingSlots}
                                     error={errors.horario?.message}
                                 />
                             </div>
