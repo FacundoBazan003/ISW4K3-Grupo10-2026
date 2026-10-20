@@ -8,7 +8,26 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // =========================================================================
 
   it("permite inscripciones a actividades que no requieren vestimenta", () => {
-    // Probar inscripción válida a 'Jardinería' o 'Safari' sin talle
+    // Arrange: Solicitud válida para Jardinería (sin especificar talle de vestimenta)
+    const solicitud = {
+      actividad: "Jardinería",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        {
+          dni: "12345678",
+          edad: 25,
+          nombre: "Juan Pérez",
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act: Ejecutamos la inscripción
+    const resultado = inscribirActividad(solicitud as any);
+
+    // Assert: Verificamos éxito y generación del código QR
+    assert.strictEqual(resultado.exito, true);
+    assert.ok(resultado.codigoQR, "Debe generar un código QR para la inscripción");
   });
 
   it("permite inscripciones con vestimenta usando un talle permitido", () => {
