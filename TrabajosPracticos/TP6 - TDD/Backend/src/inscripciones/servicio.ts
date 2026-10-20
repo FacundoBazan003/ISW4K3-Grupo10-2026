@@ -1,16 +1,28 @@
+import { crearActividadesMock } from "./datos-mocks";
 import {
   InscripcionRechazadaError,
+  type Actividad,
   type Participante,
 } from "./modelos";
 
-const ACTIVIDADES_CON_VESTIMENTA = ["Palestra", "Tirolesa"];
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const EDAD_MINIMA_PALESTRA = 12;
 
-export function inscribirActividad(solicitud: any): any {
+interface ContextoInscripcion {
+  actividades?: Actividad[];
+}
+
+export function inscribirActividad(
+  solicitud: any,
+  contexto: ContextoInscripcion = {}
+): any {
   if (!solicitud?.actividad) {
     throw new Error("Debe seleccionar una actividad");
   }
+
+  const actividades = contexto.actividades ?? crearActividadesMock();
+  const actividad = buscarActividad(actividades, solicitud.actividad);
+  validarDisponibilidad(actividad);
 
   if (!solicitud.participantes || solicitud.participantes.length === 0) {
     throw new Error("Debe ingresar al menos un participante");
@@ -21,7 +33,7 @@ export function inscribirActividad(solicitud: any): any {
   validarTerminos(solicitud.aceptaTerminos);
 
   // Validación de vestimenta si la actividad lo demanda
-  if (ACTIVIDADES_CON_VESTIMENTA.includes(solicitud.actividad)) {
+  if (actividad?.requiereVestimenta) {
     for (const p of solicitud.participantes) {
       if (!p.talla) {
         throw new Error("Requiere talle de vestimenta");
@@ -45,6 +57,19 @@ export function inscribirActividad(solicitud: any): any {
     exito: true,
     codigoQR,
   };
+}
+
+function buscarActividad(
+  actividades: Actividad[],
+  nombre: string
+): Actividad | undefined {
+  return actividades.find((actividad) => actividad.nombre === nombre);
+}
+
+function validarDisponibilidad(actividad: Actividad | undefined): void {
+  if (actividad?.disponible === false) {
+    throw new InscripcionRechazadaError("ACTIVIDAD_NO_DISPONIBLE");
+  }
 }
 
 function validarEdadMinima(

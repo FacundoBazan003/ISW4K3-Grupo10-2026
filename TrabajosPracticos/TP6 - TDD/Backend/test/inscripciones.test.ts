@@ -3,6 +3,8 @@ import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
 
 import { InscripcionRechazadaError } from "../src/inscripciones/modelos";
+import { crearActividadesMock } from "../src/inscripciones/datos-mocks";
+
 
 describe("Pruebas para la lógica de inscripción a actividades del parque", () => {
   // =========================================================================
@@ -125,7 +127,27 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   });
 
   it("rechaza inscripciones a actividades no disponibles", () => {
-    // Actividad inexistente o no listada en el dominio
+    // Precondiciones: Safari existe en el catálogo, pero no está disponible
+    const actividades = crearActividadesMock().map((actividad) =>
+      actividad.nombre === "Safari"
+        ? { ...actividad, disponible: false }
+        : actividad
+    );
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [{ nombre: "Juan Pérez", dni: "12345678", edad: 25 }],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud, { actividades }),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "ACTIVIDAD_NO_DISPONIBLE",
+      "Debe rechazar la inscripción a una actividad no disponible"
+    );
   });
 
   // =========================================================================
