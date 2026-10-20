@@ -59,15 +59,7 @@ export function inscribirActividad(
   const inscripciones = contexto.inscripciones ?? [];
 
   if (actividad) {
-    const nuevaInscripcion: Inscripcion = {
-      id: Math.max(0, ...inscripciones.map((i) => i.id)) + 1,
-      usuarioId: crearSesionUsuarioMock().usuarioId,
-      actividadId: actividad.id,
-      fechaHora: solicitud.horario,
-      participantes: solicitud.participantes,
-    };
-
-    inscripciones.push(nuevaInscripcion);
+    registrarInscripcion(solicitud, actividad, inscripciones);
   }
 
   const codigoQR = `QR-${solicitud.actividad}-${Date.now()}`;
@@ -135,4 +127,20 @@ function validarAnticipacion(horario: string): void {
       "FUERA_DE_ANTICIPACION"
     );
   }
+}
+
+function registrarInscripcion(
+  solicitud: any,
+  actividad: Actividad,
+  inscripciones: Inscripcion[]
+): void {
+  const nuevaInscripcion: Inscripcion = {
+    id: Math.max(0, ...inscripciones.map((i) => i.id)) + 1,
+    usuarioId: crearSesionUsuarioMock().usuarioId,
+    actividadId: actividad.id,
+    fechaHora: solicitud.horario,
+    participantes: solicitud.participantes,
+  };
+
+  inscripciones.push(nuevaInscripcion);
 }
