@@ -661,8 +661,39 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("rechaza turnos que no comienzan en punto", () => {
-    // Horario con minutos fraccionados (ej. 10:15 o 14:30)
+  it("rechaza turnos que no comienzan en punto", (t) => {
+    // Arrange: un martes con turnos dentro de la franja de actividades.
+    const ahora = new Date("2026-10-20T09:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const horarios = [
+      "2026-10-20T10:15:00-03:00",
+      "2026-10-20T14:30:00-03:00",
+    ];
+
+    for (const horario of horarios) {
+      const solicitud = {
+        actividad: "Safari",
+        horario,
+        participantes: [
+          {
+            nombre: "Juan Pérez",
+            dni: "12345678",
+            edad: 25,
+          },
+        ],
+        aceptaTerminos: true,
+      };
+
+      // Act y Assert
+      assert.throws(
+        () => inscribirActividad(solicitud),
+        (error: unknown) =>
+          error instanceof InscripcionRechazadaError &&
+          error.motivo === "HORARIO_NO_DISPONIBLE",
+        `Debe rechazar el turno ${horario} porque no comienza en punto`,
+      );
+    }
   });
 
   it("rechaza inscripciones durante horarios de cierre del parque", (t) => {
