@@ -69,6 +69,18 @@ export function inscribirActividad(
   validarHorarioActividad(solicitud.horario);
   validarFeriados(solicitud.horario);
 
+  const horaEnParque = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(new Date(solicitud.horario));
+  const minutosTurno = minutosDesdeMedianoche(horaEnParque);
+
+  if (minutosTurno === undefined || minutosTurno % 60 !== 0) {
+    throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
+  }
+
   const inscripciones = contexto.inscripciones ?? [];
 
   validarInscripcionesSuperpuestas(solicitud, inscripciones);
