@@ -115,17 +115,21 @@ function validarParticipantesInformados(participantes?: Participante[]): void {
 
 function validarDatosObligatoriosParticipantes(participantes: Participante[]): void {
   for (const participante of participantes) {
-    if (
-      !participante.nombre ||
-      !participante.dni ||
-      participante.edad === undefined ||
-      participante.edad === null
-    ) {
+    if (!tieneDatosObligatorios(participante)) {
       throw new InscripcionRechazadaError(
         "PARTICIPANTE_INCOMPLETO"
       );
     }
   }
+}
+
+function tieneDatosObligatorios(participante: Participante): boolean {
+  return (
+    Boolean(participante.nombre) &&
+    Boolean(participante.dni) &&
+    participante.edad !== undefined &&
+    participante.edad !== null
+  );
 }
 
 function validarAnticipacion(horario: string): void {
