@@ -16,6 +16,13 @@ import {
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const ANTICIPACION_MINIMA_MS = 15 * 60 * 1000;
 const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
+const ZONA_HORARIA_PARQUE = "America/Argentina/Buenos_Aires";
+const FORMATEADOR_HORA_PARQUE = new Intl.DateTimeFormat("en-GB", {
+  timeZone: ZONA_HORARIA_PARQUE,
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
 const DIAS_SEMANA: DiaSemana[] = [
   "DOMINGO",
   "LUNES",
@@ -263,7 +270,7 @@ function validarCierreSemanal(horario: string): void {
 function validarFeriados(horario: string): void {
   const reglasCierre = crearReglasCierreParqueMock();
   const fechaEnParque = new Intl.DateTimeFormat("es-AR", {
-    timeZone: "America/Argentina/Buenos_Aires",
+    timeZone: ZONA_HORARIA_PARQUE,
     day: "numeric",
     month: "numeric",
   }).formatToParts(new Date(horario));
@@ -280,13 +287,7 @@ function validarFeriados(horario: string): void {
 }
 
 function validarInicioTurnoEnPunto(horario: string): void {
-  const horaEnParque = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "America/Argentina/Buenos_Aires",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  }).format(new Date(horario));
-  const minutosTurno = minutosDesdeMedianoche(horaEnParque);
+  const minutosTurno = minutosDesdeMedianoche(horaEnParque(new Date(horario)));
 
   if (minutosTurno === undefined || minutosTurno % 60 !== 0) {
     throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
@@ -333,12 +334,7 @@ function validarHorarioActividad(horario: string): void {
 }
 
 function horaEnParque(fecha: Date): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    timeZone: "America/Argentina/Buenos_Aires",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  }).format(fecha);
+  return FORMATEADOR_HORA_PARQUE.format(fecha);
 }
 
 function minutosDesdeMedianoche(hora: string): number | undefined {
