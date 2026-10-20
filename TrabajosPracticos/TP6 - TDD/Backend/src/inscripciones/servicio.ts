@@ -7,6 +7,7 @@ import {
 
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const EDAD_MINIMA_PALESTRA = 12;
+const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
 
 interface ContextoInscripcion {
   actividades?: Actividad[];
@@ -51,14 +52,7 @@ export function inscribirActividad(
     );
   }
 
-  const anticipacionMs =
-    new Date(solicitud.horario).getTime() - Date.now();
-
-  if (anticipacionMs > 24 * 60 * 60 * 1000) {
-    throw new InscripcionRechazadaError(
-      "FUERA_DE_ANTICIPACION"
-    );
-  }
+  validarAnticipacion(solicitud.horario);
 
   const codigoQR = `QR-${solicitud.actividad}-${Date.now()}`;
 
@@ -109,5 +103,16 @@ function validarDniParticipantes(participantes: Participante[]): void {
         "PARTICIPANTE_INCOMPLETO"
       );
     }
+  }
+}
+
+function validarAnticipacion(horario: string): void {
+  const anticipacionMs =
+    new Date(horario).getTime() - Date.now();
+
+  if (anticipacionMs > ANTICIPACION_MAXIMA_MS) {
+    throw new InscripcionRechazadaError(
+      "FUERA_DE_ANTICIPACION"
+    );
   }
 }
