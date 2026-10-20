@@ -1,6 +1,7 @@
 import {
   crearActividadesMock,
   crearHorarioParqueMock,
+  crearHorariosActividadesMock,
   crearSesionUsuarioMock,
   crearReglasCierreParqueMock,
 } from "./datos-mocks";
@@ -64,6 +65,16 @@ export function inscribirActividad(
     solicitud.horario,
     contexto.horarioParque ?? crearHorarioParqueMock(),
   );
+
+  const horasActividades = crearHorariosActividadesMock().map((turno) =>
+    Number(turno.split(":")[0])
+  );
+
+  const horaTurno = new Date(solicitud.horario).getHours();
+
+  if (!horasActividades.includes(horaTurno)) {
+    throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
+  }
 
   const inscripciones = contexto.inscripciones ?? [];
 
