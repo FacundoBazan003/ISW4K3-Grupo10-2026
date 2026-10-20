@@ -205,8 +205,10 @@ function validarInscripcionesSuperpuestas(
   inscripciones: Inscripcion[]
 ): void {
   for (const participante of solicitud.participantes) {
-    const tieneOtraInscripcion = inscripciones.some((inscripcion) =>
-      estaInscripto(participante, inscripcion)
+    const tieneOtraInscripcion = inscripciones.some(
+      (inscripcion) =>
+        inscripcion.fechaHora === solicitud.horario &&
+        estaInscripto(participante, inscripcion)
     );
 
     if (tieneOtraInscripcion) {
