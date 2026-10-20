@@ -45,7 +45,7 @@ La fecha y la hora del turno corresponden a Argentina (UTC-3). Una respuesta exi
 
 ## Qué se conserva
 
-- El dominio y sus 28 tests conservan la versión de `main` incorporada en `c5dc482`, incluido el test original que rechaza a 15 minutos o menos. Se incorporaron horarios de actividades, su test de límites, feriados y turnos en punto. Dos tests siguen siendo plantillas vacías: exactamente 24 horas y código QR.
+- El dominio conserva las reglas de `main` incorporadas en `c5dc482`, incluido el test que rechaza a 15 minutos o menos, y el refactor horario de `c87d534`. La suite incorpora el test de confirmación a exactamente 24 horas y tres pruebas de la validación de edad utilizada por la API. Hay 31 tests declarados, 30 con comprobaciones; solo el del código QR sigue vacío.
 - El frontend incorpora los cambios de su rama remota hasta `5298100`: calendario, iconos, rutas con sesión simulada, carga de horarios de dos segundos y agregado de visitantes condicionado a un turno disponible. Se mantienen las adaptaciones a la API para catálogo, calendario, disponibilidad y confirmación. La ampliación de términos no agrega validaciones automáticas de peso, salud u otras condiciones mencionadas en ellos.
 - La sesión continúa simulada. Se conservan el diseño, los textos y la simulación de correo/comprobante del frontend.
 - En ejecución normal las reservas se guardan en `Backend/data/ecoharmony.db`, con las tablas `inscripciones` y `participantes`. Se conservan al reiniciar el backend. El archivo es local y está excluido de Git.
@@ -70,7 +70,7 @@ npm test
 npm run build
 ```
 
-`npm test` ejecuta únicamente los 28 casos originales de `test/inscripciones.test.ts`. Dos casos siguen vacíos y no representan comprobaciones reales. Por decisión del usuario se retiraron las pruebas adicionales de API, SQLite y frontend, junto con sus comandos y el ejecutor de tests del frontend. La integración se puede comprobar siguiendo los pasos manuales y usando `npm run db:ver`.
+`npm test` ejecuta los 31 casos de `test/inscripciones.test.ts`, incluidos los tres nuevos de la función de validación de edad de la API. El caso específico del QR sigue vacío y no representa una comprobación real. Por decisión del usuario se retiraron los archivos adicionales de pruebas de API, SQLite y frontend, junto con sus comandos y el ejecutor de tests del frontend. La integración HTTP y la persistencia se pueden comprobar siguiendo los pasos manuales y usando `npm run db:ver`.
 
 ## Consultar la base de datos
 
