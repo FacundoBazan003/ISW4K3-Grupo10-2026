@@ -58,8 +58,26 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
-  it("permite omitir el nombre de un participante", () => {
-    // DNI y edad presentes, nombre omitido
+  it("rechaza participantes sin nombre", (t) => {
+    // Precondiciones: reloj fijo y un participante con DNI y edad, pero sin nombre
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [{ dni: "12345678", edad: 25 }],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "PARTICIPANTE_INCOMPLETO",
+      "Debe rechazar un participante sin nombre"
+    );
   });
 
   it("permite reservar exactamente 24 horas antes del turno", () => {
