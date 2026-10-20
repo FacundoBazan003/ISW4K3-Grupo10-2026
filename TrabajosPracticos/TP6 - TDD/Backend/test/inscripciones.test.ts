@@ -506,8 +506,44 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
   // 8. CONCURRENCIA Y TÉRMINOS LEGALES
   // =========================================================================
 
-  it("rechaza reservas de actividades simultáneas", () => {
-    // Mismo participante intentando reservar dos actividades en el mismo horario
+  it("rechaza reservas de actividades simultáneas", (t) => {
+    // Precondiciones: reloj fijo y Juan Pérez ya inscripto en Safari a las 11:00
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const horario = "2026-10-20T11:00:00-03:00";
+    const participante = { nombre: "Juan Pérez", dni: "12345678", edad: 25 };
+
+    const inscripciones: Inscripcion[] = [
+      {
+        id: 1,
+        usuarioId: "visitante-mock",
+        actividadId: "safari",
+        fechaHora: horario,
+        participantes: [participante],
+      },
+    ];
+
+    const contexto = {
+      actividades: crearActividadesMock(),
+      inscripciones,
+    };
+
+    const solicitud = {
+      actividad: "Jardinería",
+      horario,
+      participantes: [participante],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud, contexto),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "INSCRIPCION_SUPERPUESTA",
+      "Debe rechazar a un participante ya inscripto en otra actividad del mismo horario"
+    );
   });
 
   it("rechaza inscripciones si no se aceptan los términos y condiciones", (t) => {
