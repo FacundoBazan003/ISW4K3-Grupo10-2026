@@ -1,7 +1,8 @@
-import { crearActividadesMock } from "./datos-mocks";
+import { crearActividadesMock, crearSesionUsuarioMock } from "./datos-mocks";
 import {
   InscripcionRechazadaError,
   type Actividad,
+  type Inscripcion,
   type Participante,
 } from "./modelos";
 
@@ -11,6 +12,7 @@ const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
 
 interface ContextoInscripcion {
   actividades?: Actividad[];
+  inscripciones?: Inscripcion[];
 }
 
 export function inscribirActividad(
@@ -53,6 +55,20 @@ export function inscribirActividad(
   }
 
   validarAnticipacion(solicitud.horario);
+
+  const inscripciones = contexto.inscripciones ?? [];
+
+  if (actividad) {
+    const nuevaInscripcion: Inscripcion = {
+      id: Math.max(0, ...inscripciones.map((i) => i.id)) + 1,
+      usuarioId: crearSesionUsuarioMock().usuarioId,
+      actividadId: actividad.id,
+      fechaHora: solicitud.horario,
+      participantes: solicitud.participantes,
+    };
+
+    inscripciones.push(nuevaInscripcion);
+  }
 
   const codigoQR = `QR-${solicitud.actividad}-${Date.now()}`;
 
