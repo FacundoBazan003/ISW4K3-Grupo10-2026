@@ -176,8 +176,34 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.strictEqual(8 - ocupados, 6);
   });
 
-  it("retorna el código QR correspondiente al completar la inscripción", () => {
-    // Verificar que el resultado de la inscripción contenga el QR de acceso
+  it("retorna el código QR correspondiente al completar la inscripción", (t) => {
+    // Arrange
+    const ahora = new Date("2026-10-20T09:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud);
+
+    // Assert
+    assert.strictEqual(resultado.exito, true);
+    assert.strictEqual(typeof resultado.codigoQR, "string");
+    assert.ok(
+      resultado.codigoQR.trim().length > 0,
+      "Debe retornar un código QR no vacío",
+    );
   });
 
   // =========================================================================
