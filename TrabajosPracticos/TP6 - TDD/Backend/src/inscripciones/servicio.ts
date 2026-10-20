@@ -16,6 +16,14 @@ export function inscribirActividad(solicitud: any): any {
     throw new Error("Debe ingresar al menos un participante");
   }
 
+  for (const p of solicitud.participantes) {
+    if (!p.dni) {
+      throw new InscripcionRechazadaError(
+        "PARTICIPANTE_INCOMPLETO"
+      );
+    }
+  }
+
   validarTerminos(solicitud.aceptaTerminos);
 
   // Validación de vestimenta si la actividad lo demanda
