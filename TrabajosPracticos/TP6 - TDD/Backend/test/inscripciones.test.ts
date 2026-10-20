@@ -249,8 +249,26 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
-    // Participante con exactamente 8 años inscribiéndose a Tirolesa
+    it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
+    // Precondiciones: participante con exactamente 8 años (edad mínima de Tirolesa)
+    const solicitud = {
+      actividad: "Tirolesa",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        { nombre: "Lucía Ríos", dni: "54123456", edad: 8, talla: "S" },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos
+    const resultado = inscribirActividad(solicitud);
+
+    // Resultado
+    assert.strictEqual(
+      resultado.exito,
+      true,
+      "Debe aceptar a un participante con exactamente la edad mínima"
+    );
   });
 
   // =========================================================================
