@@ -40,10 +40,7 @@ export function inscribirActividad(
   const actividad = buscarActividad(actividades, solicitud.actividad);
   validarDisponibilidad(actividad);
 
-  if (!solicitud.participantes || solicitud.participantes.length === 0) {
-      throw new InscripcionRechazadaError("SIN_PARTICIPANTES");
-  }
-
+  validarParticipantesInformados(solicitud.participantes);
   validarDatosObligatoriosParticipantes(solicitud.participantes);
 
   validarTerminos(solicitud.aceptaTerminos);
@@ -107,6 +104,12 @@ function validarTerminos(aceptaTerminos: boolean): void {
     throw new InscripcionRechazadaError(
       "TERMINOS_NO_ACEPTADOS"
     );
+  }
+}
+
+function validarParticipantesInformados(participantes?: Participante[]): void {
+  if (!participantes || participantes.length === 0) {
+    throw new InscripcionRechazadaError("SIN_PARTICIPANTES");
   }
 }
 
