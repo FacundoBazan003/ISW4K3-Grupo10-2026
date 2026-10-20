@@ -19,14 +19,22 @@ export default function ScheduleSelector({
     if (isLoading) {
         return (
             <div className="space-y-3">
-                <label className="text-base-content/80 text-xs font-bold tracking-wider uppercase">
-                    Paso 2: Horarios y Cupos Disponibles
-                </label>
-                <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-5">
+                <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
+                    <div>
+                        <label className="text-base-content/80 text-xs font-bold tracking-wider uppercase">
+                            Paso 2: Horarios y Cupos Disponibles
+                        </label>
+                        <p className="text-base-content/60 flex items-center gap-1.5 text-[11px]">
+                            <span className="loading loading-spinner loading-xs text-primary"></span>
+                            <span>Consultando disponibilidad en tiempo real...</span>
+                        </p>
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {Array.from({ length: 9 }).map((_, i) => (
                         <div
                             key={i}
-                            className="bg-base-200/60 border-base-300/40 h-16 animate-pulse rounded-xl border"
+                            className="bg-base-200/60 border-base-300 min-h-[5.25rem] animate-pulse rounded-2xl border p-3.5"
                         />
                     ))}
                 </div>
