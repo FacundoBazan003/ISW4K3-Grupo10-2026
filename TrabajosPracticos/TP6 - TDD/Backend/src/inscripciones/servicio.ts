@@ -6,7 +6,6 @@ import {
 } from "./modelos";
 
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
-const EDAD_MINIMA_PALESTRA = 12;
 const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
 
 interface ContextoInscripcion {
@@ -44,15 +43,9 @@ export function inscribirActividad(
       }
     }
   }
-    // Validación de edad mínima de Palestra.
-  if (solicitud.actividad === "Palestra") {
-    validarEdadMinima(
-      solicitud.participantes,
-      EDAD_MINIMA_PALESTRA
-    );
-  }
-  if (solicitud.actividad === "Tirolesa") {
-    validarEdadMinima(solicitud.participantes, 8);
+  // Validación de edad mínima si la actividad la define
+  if (actividad?.edadMinima !== undefined) {
+    validarEdadMinima(solicitud.participantes, actividad.edadMinima);
   }
 
   validarAnticipacion(solicitud.horario);
