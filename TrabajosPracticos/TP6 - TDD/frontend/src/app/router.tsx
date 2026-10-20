@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 
 import MainLayout from "@/layouts/MainLayout";
 import HomePage from "@/pages/HomePage";
+import LoginPage from "@/pages/auth/LoginPage";
 
 export const router = createBrowserRouter([
     {
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: HomePage,
+            },
+            {
+                path: "login",
+                Component: LoginPage,
             },
         ],
     },
