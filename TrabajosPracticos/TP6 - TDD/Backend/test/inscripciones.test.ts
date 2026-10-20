@@ -2,6 +2,8 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
 
+import { InscripcionRechazadaError } from "../src/inscripciones/modelos";
+
 describe("Pruebas para la lógica de inscripción a actividades del parque", () => {
   // =========================================================================
   // 1. CASOS DE ÉXITO (HAPPY PATHS) Y EFECTOS SECUNDARIOS
@@ -128,8 +130,32 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 5. RESTRICCIONES POR EDAD
   // =========================================================================
 
-  it("rechaza participantes menores a la edad mínima de Palestra", () => {
-    // Participante con 11 años intentando inscribirse a Palestra (mínimo 12)
+  it("rechaza participantes menores a la edad mínima de Palestra", (t) => {
+    // Arrange: reserva una hora antes de un turno válido.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Palestra",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Ana Gómez",
+          dni: "50123456",
+          edad: 11,
+          talla: "M",
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "EDAD_MINIMA_NO_CUMPLIDA"
+    );
   });
 
   it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
