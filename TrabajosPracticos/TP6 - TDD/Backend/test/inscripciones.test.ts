@@ -228,6 +228,27 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
+    it("rechaza participantes menores a la edad mínima de Tirolesa", () => {
+    // Precondiciones: Tirolesa exige 8 años como mínimo
+    const solicitud = {
+      actividad: "Tirolesa",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        { nombre: "Tomás Díaz", dni: "55123456", edad: 7, talla: "S" },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "EDAD_MINIMA_NO_CUMPLIDA",
+      "Debe rechazar a un participante de 7 años en Tirolesa"
+    );
+  });
+
   it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
     // Participante con exactamente 8 años inscribiéndose a Tirolesa
   });
