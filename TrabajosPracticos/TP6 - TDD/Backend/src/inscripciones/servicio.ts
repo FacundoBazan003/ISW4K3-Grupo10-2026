@@ -142,7 +142,7 @@ function validarVestimenta(participantes: { talla?: string }[]): void {
     }
 
     if (!TALLES_PERMITIDOS.includes(participante.talla)) {
-      throw new Error("Talle no válido");
+            throw new InscripcionRechazadaError("TALLE_INVALIDO");
     }
   }
 }
