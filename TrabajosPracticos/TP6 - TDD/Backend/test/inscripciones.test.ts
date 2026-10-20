@@ -584,6 +584,46 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
+  it("acepta turnos en los límites del horario de actividades", (t) => {
+    // Precondiciones: reloj fijo y los turnos extremos de la franja, 09:00 y 17:00
+    const ahora = new Date("2026-10-20T08:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const base = {
+      actividad: "Safari",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos
+    const primerTurno = inscribirActividad({
+      ...base,
+      horario: "2026-10-20T09:00:00-03:00",
+    });
+    const ultimoTurno = inscribirActividad({
+      ...base,
+      horario: "2026-10-20T17:00:00-03:00",
+    });
+
+    // Resultado
+    assert.strictEqual(
+      primerTurno.exito,
+      true,
+      "Debe aceptar un turno en el primer horario de actividades"
+    );
+    assert.strictEqual(
+      ultimoTurno.exito,
+      true,
+      "Debe aceptar un turno en el último horario de actividades"
+    );
+  });
+
   it("rechaza turnos que no comienzan en punto", () => {
     // Horario con minutos fraccionados (ej. 10:15 o 14:30)
   });
