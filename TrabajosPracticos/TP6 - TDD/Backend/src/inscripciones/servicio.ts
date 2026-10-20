@@ -13,6 +13,7 @@ import {
 } from "./modelos";
 
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
+const ANTICIPACION_MINIMA_MS = 15 * 60 * 1000;
 const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
 const DIAS_SEMANA: DiaSemana[] = [
   "DOMINGO",
@@ -143,6 +144,12 @@ function tieneDatosObligatorios(participante: Participante): boolean {
 function validarAnticipacion(horario: string): void {
   const anticipacionMs =
     new Date(horario).getTime() - Date.now();
+
+  if (anticipacionMs >= 0 && anticipacionMs <= ANTICIPACION_MINIMA_MS) {
+    throw new InscripcionRechazadaError(
+      "CIERRE_DE_INSCRIPCION"
+    );
+  }
 
   if (anticipacionMs > ANTICIPACION_MAXIMA_MS) {
     throw new InscripcionRechazadaError(
