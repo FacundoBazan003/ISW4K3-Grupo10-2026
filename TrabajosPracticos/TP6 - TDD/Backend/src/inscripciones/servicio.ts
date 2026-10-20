@@ -51,6 +51,9 @@ export function inscribirActividad(
       EDAD_MINIMA_PALESTRA
     );
   }
+  if (solicitud.actividad === "Tirolesa") {
+    validarEdadMinima(solicitud.participantes, 8);
+  }
 
   validarAnticipacion(solicitud.horario);
 
