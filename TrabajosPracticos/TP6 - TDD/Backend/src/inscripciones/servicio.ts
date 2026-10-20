@@ -50,24 +50,7 @@ export function inscribirActividad(
 
   validarAnticipacion(solicitud.horario);
 
-  const reglasCierre = crearReglasCierreParqueMock();
-
-  const diasSemana: DiaSemana[] = [
-    "DOMINGO",
-    "LUNES",
-    "MARTES",
-    "MIERCOLES",
-    "JUEVES",
-    "VIERNES",
-    "SABADO",
-  ];
-
-  const fechaTurno = new Date(solicitud.horario);
-  const diaTurno = diasSemana[fechaTurno.getDay()];
-
-  if (reglasCierre.diasCerrados.includes(diaTurno)) {
-    throw new InscripcionRechazadaError("PARQUE_CERRADO");
-  }
+  validarCierreSemanal(solicitud.horario);
 
   const inscripciones = contexto.inscripciones ?? [];
 
@@ -191,5 +174,26 @@ function validarCupos(
 
   if (solicitud.participantes.length > cuposDisponibles) {
     throw new InscripcionRechazadaError("SIN_CUPOS");
+  }
+}
+
+function validarCierreSemanal(horario: string): void {
+  const reglasCierre = crearReglasCierreParqueMock();
+
+  const diasSemana: DiaSemana[] = [
+    "DOMINGO",
+    "LUNES",
+    "MARTES",
+    "MIERCOLES",
+    "JUEVES",
+    "VIERNES",
+    "SABADO",
+  ];
+
+  const fechaTurno = new Date(horario);
+  const diaTurno = diasSemana[fechaTurno.getDay()];
+
+  if (reglasCierre.diasCerrados.includes(diaTurno)) {
+    throw new InscripcionRechazadaError("PARQUE_CERRADO");
   }
 }
