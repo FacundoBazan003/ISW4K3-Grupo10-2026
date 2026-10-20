@@ -16,11 +16,7 @@ export function inscribirActividad(solicitud: any): any {
     throw new Error("Debe ingresar al menos un participante");
   }
 
-  if (solicitud.aceptaTerminos !== true) {
-    throw new InscripcionRechazadaError(
-      "TERMINOS_NO_ACEPTADOS"
-    );
-  }
+  validarTerminos(solicitud.aceptaTerminos);
 
   // Validación de vestimenta si la actividad lo demanda
   if (ACTIVIDADES_CON_VESTIMENTA.includes(solicitud.actividad)) {
@@ -59,5 +55,13 @@ function validarEdadMinima(
         "EDAD_MINIMA_NO_CUMPLIDA"
       );
     }
+  }
+}
+
+function validarTerminos(aceptaTerminos: boolean): void {
+  if (aceptaTerminos !== true) {
+    throw new InscripcionRechazadaError(
+      "TERMINOS_NO_ACEPTADOS"
+    );
   }
 }
