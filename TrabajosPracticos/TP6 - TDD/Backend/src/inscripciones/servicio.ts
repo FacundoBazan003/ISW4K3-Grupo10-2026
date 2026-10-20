@@ -48,23 +48,7 @@ export function inscribirActividad(
   const inscripciones = contexto.inscripciones ?? [];
 
   if (actividad) {
-    const cuposOcupados = inscripciones
-      .filter(
-        (inscripcion) =>
-          inscripcion.actividadId === actividad.id &&
-          inscripcion.fechaHora === solicitud.horario
-      )
-      .reduce(
-        (total, inscripcion) => total + inscripcion.participantes.length,
-        0
-      );
-
-    const cuposDisponibles = actividad.cuposPorTurno - cuposOcupados;
-
-    if (solicitud.participantes.length > cuposDisponibles) {
-      throw new InscripcionRechazadaError("SIN_CUPOS");
-    }
-
+    validarCupos(solicitud, actividad, inscripciones);
     registrarInscripcion(solicitud, actividad, inscripciones);
   }
 
@@ -160,5 +144,28 @@ function validarVestimenta(participantes: { talla?: string }[]): void {
     if (!TALLES_PERMITIDOS.includes(participante.talla)) {
       throw new Error("Talle no válido");
     }
+  }
+}
+
+function validarCupos(
+  solicitud: any,
+  actividad: Actividad,
+  inscripciones: Inscripcion[]
+): void {
+  const cuposOcupados = inscripciones
+    .filter(
+      (inscripcion) =>
+        inscripcion.actividadId === actividad.id &&
+        inscripcion.fechaHora === solicitud.horario
+    )
+    .reduce(
+      (total, inscripcion) => total + inscripcion.participantes.length,
+      0
+    );
+
+  const cuposDisponibles = actividad.cuposPorTurno - cuposOcupados;
+
+  if (solicitud.participantes.length > cuposDisponibles) {
+    throw new InscripcionRechazadaError("SIN_CUPOS");
   }
 }
