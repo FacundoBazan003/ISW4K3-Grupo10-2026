@@ -36,7 +36,7 @@ export function inscribirActividad(
   if (actividad?.requiereVestimenta) {
     for (const p of solicitud.participantes) {
       if (!p.talla) {
-        throw new Error("Requiere talle de vestimenta");
+                throw new InscripcionRechazadaError("VESTIMENTA_REQUERIDA");
       }
       if (!TALLES_PERMITIDOS.includes(p.talla)) {
         throw new Error("Talle no válido");
