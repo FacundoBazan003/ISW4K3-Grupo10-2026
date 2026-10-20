@@ -60,6 +60,18 @@ export function inscribirActividad(
 
   const inscripciones = contexto.inscripciones ?? [];
 
+  for (const participante of solicitud.participantes) {
+    const yaInscripto = inscripciones.some((inscripcion) =>
+      inscripcion.participantes.some(
+        (inscripto) => inscripto.dni === participante.dni
+      )
+    );
+
+    if (yaInscripto) {
+      throw new InscripcionRechazadaError("INSCRIPCION_SUPERPUESTA");
+    }
+  }
+
   if (actividad) {
     validarCupos(solicitud, actividad, inscripciones);
     registrarInscripcion(solicitud, actividad, inscripciones);
