@@ -2,9 +2,11 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
 
-import { InscripcionRechazadaError ,type Inscripcion, } from "../src/inscripciones/modelos";
+import {
+  InscripcionRechazadaError,
+  type Inscripcion,
+} from "../src/inscripciones/modelos";
 import { crearActividadesMock } from "../src/inscripciones/datos-mocks";
-
 
 describe("Pruebas para la lógica de inscripción a actividades del parque", () => {
   // =========================================================================
@@ -31,7 +33,10 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
 
     // Assert: Verificamos éxito y generación del código QR
     assert.strictEqual(resultado.exito, true);
-    assert.ok(resultado.codigoQR, "Debe generar un código QR para la inscripción");
+    assert.ok(
+      resultado.codigoQR,
+      "Debe generar un código QR para la inscripción",
+    );
   });
 
   it("permite inscripciones con vestimenta usando un talle permitido", () => {
@@ -76,7 +81,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "PARTICIPANTE_INCOMPLETO",
-      "Debe rechazar un participante sin nombre"
+      "Debe rechazar un participante sin nombre",
     );
   });
 
@@ -120,7 +125,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.strictEqual(
       resultado.exito,
       true,
-      "Debe aceptar al mismo participante en un turno distinto"
+      "Debe aceptar al mismo participante en un turno distinto",
     );
     assert.strictEqual(inscripciones.length, 2);
   });
@@ -160,7 +165,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Assert
     const ocupados = inscripciones.reduce(
       (total, inscripcion) => total + inscripcion.participantes.length,
-      0
+      0,
     );
 
     assert.strictEqual(resultado.exito, true);
@@ -207,7 +212,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "SIN_PARTICIPANTES",
-      "Debe rechazar una inscripción sin participantes"
+      "Debe rechazar una inscripción sin participantes",
     );
   });
 
@@ -233,7 +238,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "PARTICIPANTE_INCOMPLETO"
+        error.motivo === "PARTICIPANTE_INCOMPLETO",
     );
   });
 
@@ -259,7 +264,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "PARTICIPANTE_INCOMPLETO"
+        error.motivo === "PARTICIPANTE_INCOMPLETO",
     );
   });
 
@@ -268,7 +273,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     const actividades = crearActividadesMock().map((actividad) =>
       actividad.nombre === "Safari"
         ? { ...actividad, disponible: false }
-        : actividad
+        : actividad,
     );
     const solicitud = {
       actividad: "Safari",
@@ -283,7 +288,7 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "ACTIVIDAD_NO_DISPONIBLE",
-      "Debe rechazar la inscripción a una actividad no disponible"
+      "Debe rechazar la inscripción a una actividad no disponible",
     );
   });
 
@@ -291,55 +296,55 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 3. REGLAS DE CUPOS Y DISPONIBILIDAD
   // =========================================================================
 
-it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (t) => {
-  // Arrange: Safari tiene 7 de sus 8 lugares ocupados.
-  const ahora = new Date("2026-10-20T10:00:00-03:00");
-  t.mock.method(Date, "now", () => ahora.getTime());
+  it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (t) => {
+    // Arrange: Safari tiene 7 de sus 8 lugares ocupados.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
 
-  const horario = "2026-10-20T11:00:00-03:00";
+    const horario = "2026-10-20T11:00:00-03:00";
 
-  const inscripciones: Inscripcion[] = [
-    {
-      id: 1,
-      usuarioId: "otro-visitante",
-      actividadId: "safari",
-      fechaHora: horario,
-      participantes: Array.from({ length: 7 }, (_, indice) => ({
-        dni: String(30000000 + indice),
-        edad: 25,
-      })),
-    },
-  ];
+    const inscripciones: Inscripcion[] = [
+      {
+        id: 1,
+        usuarioId: "otro-visitante",
+        actividadId: "safari",
+        fechaHora: horario,
+        participantes: Array.from({ length: 7 }, (_, indice) => ({
+          dni: String(30000000 + indice),
+          edad: 25,
+        })),
+      },
+    ];
 
-  const contexto = {
-    actividades: crearActividadesMock(),
-    inscripciones,
-  };
+    const contexto = {
+      actividades: crearActividadesMock(),
+      inscripciones,
+    };
 
-  const solicitud = {
-    actividad: "Safari",
-    horario,
-    participantes: [
-      { nombre: "Juan Pérez", dni: "40123456", edad: 25 },
-      { nombre: "Ana Gómez", dni: "41234567", edad: 30 },
-    ],
-    aceptaTerminos: true,
-  };
+    const solicitud = {
+      actividad: "Safari",
+      horario,
+      participantes: [
+        { nombre: "Juan Pérez", dni: "40123456", edad: 25 },
+        { nombre: "Ana Gómez", dni: "41234567", edad: 30 },
+      ],
+      aceptaTerminos: true,
+    };
 
-  // Act y Assert
-  assert.throws(
-    () => inscribirActividad(solicitud, contexto),
-    (error: unknown) =>
-      error instanceof InscripcionRechazadaError &&
-      error.motivo === "SIN_CUPOS"
-  );
-});
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud, contexto),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "SIN_CUPOS",
+    );
+  });
 
   // =========================================================================
   // 4. VESTIMENTA Y TALLES
   // =========================================================================
 
-    it("rechaza inscripciones si falta el talle requerido", () => {
+  it("rechaza inscripciones si falta el talle requerido", () => {
     // Precondiciones: Palestra requiere vestimenta y el participante no informa talle
     const solicitud = {
       actividad: "Palestra",
@@ -354,11 +359,11 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "VESTIMENTA_REQUERIDA",
-      "Debe rechazar la inscripción si falta el talle en una actividad que lo requiere"
+      "Debe rechazar la inscripción si falta el talle en una actividad que lo requiere",
     );
   });
 
-    it("rechaza inscripciones si el talle de vestimenta no es válido", (t) => {
+  it("rechaza inscripciones si el talle de vestimenta no es válido", (t) => {
     // Precondiciones: reloj fijo y Palestra con un talle fuera de la lista permitida
     const ahora = new Date("2026-10-20T10:00:00-03:00");
     t.mock.method(Date, "now", () => ahora.getTime());
@@ -378,7 +383,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "TALLE_INVALIDO",
-      "Debe rechazar un talle que no está entre los permitidos"
+      "Debe rechazar un talle que no está entre los permitidos",
     );
   });
 
@@ -410,11 +415,11 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "EDAD_MINIMA_NO_CUMPLIDA"
+        error.motivo === "EDAD_MINIMA_NO_CUMPLIDA",
     );
   });
 
-    it("rechaza participantes menores a la edad mínima de Tirolesa", () => {
+  it("rechaza participantes menores a la edad mínima de Tirolesa", () => {
     // Precondiciones: Tirolesa exige 8 años como mínimo
     const solicitud = {
       actividad: "Tirolesa",
@@ -431,11 +436,11 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "EDAD_MINIMA_NO_CUMPLIDA",
-      "Debe rechazar a un participante de 7 años en Tirolesa"
+      "Debe rechazar a un participante de 7 años en Tirolesa",
     );
   });
 
-    it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
+  it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
     // Precondiciones: participante con exactamente 8 años (edad mínima de Tirolesa)
     const solicitud = {
       actividad: "Tirolesa",
@@ -453,7 +458,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
     assert.strictEqual(
       resultado.exito,
       true,
-      "Debe aceptar a un participante con exactamente la edad mínima"
+      "Debe aceptar a un participante con exactamente la edad mínima",
     );
   });
 
@@ -484,7 +489,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "PARQUE_CERRADO"
+        error.motivo === "PARQUE_CERRADO",
     );
   });
 
@@ -519,7 +524,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "FUERA_DE_ANTICIPACION"
+        error.motivo === "FUERA_DE_ANTICIPACION",
     );
   });
 
@@ -537,6 +542,32 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
 
   it("rechaza inscripciones durante horarios de cierre del parque", () => {
     // Horarios fuera de la jornada del parque (8:30 a 19:00)
+    it("rechaza inscripciones durante horarios de cierre del parque", () => {
+      const horarioParque = {
+        ...crearHorarioParqueMock(),
+        cierre: "16:30",
+      };
+      const servicio = new ServicioInscripciones({
+        actividades: crearActividadesMock(),
+        horarioParque,
+        horariosActividades: crearHorariosActividadesMock(),
+        sesion: crearSesionUsuarioMock(),
+        ahora: () => new Date("2026-10-20T12:00:00-03:00"),
+      });
+
+      assert.throws(
+        () =>
+          servicio.inscribir({
+            actividadId: "safari",
+            fechaHora: "20/10/2026 17:00",
+            participantes: [{ dni: "12345678", edad: 30 }],
+            aceptaTerminos: true,
+          }),
+        (error: unknown) =>
+          error instanceof InscripcionRechazadaError &&
+          error.motivo === "PARQUE_CERRADO",
+      );
+    });
   });
 
   // =========================================================================
@@ -579,7 +610,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
         error.motivo === "INSCRIPCION_SUPERPUESTA",
-      "Debe rechazar a un participante ya inscripto en otra actividad del mismo horario"
+      "Debe rechazar a un participante ya inscripto en otra actividad del mismo horario",
     );
   });
 
@@ -606,7 +637,7 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
       () => inscribirActividad(solicitud),
       (error: unknown) =>
         error instanceof InscripcionRechazadaError &&
-        error.motivo === "TERMINOS_NO_ACEPTADOS"
+        error.motivo === "TERMINOS_NO_ACEPTADOS",
     );
   });
 });
