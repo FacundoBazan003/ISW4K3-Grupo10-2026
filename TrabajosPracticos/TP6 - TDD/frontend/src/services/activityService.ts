@@ -63,9 +63,9 @@ export function isTurnoInWindow(fechaStr: string, horarioStr: string): {
 
     const now = new Date();
 
-    // 15 minutos antes del inicio del turno
+    // 15 minutos antes del inicio del turno: a los 15 minutos exactos o menos ya no se permite reservar
     const fifteenMinutesBeforeTurno = new Date(turnoDate.getTime() - 15 * 60 * 1000);
-    if (now > fifteenMinutesBeforeTurno) {
+    if (now >= fifteenMinutesBeforeTurno) {
         return {
             isValid: false,
             reason: "Turno cerrado (15 min antes)",
@@ -101,7 +101,8 @@ export const activityService = {
         activityId: ActivityId,
         fecha: string,
     ): Promise<SlotAvailability[]> {
-        await new Promise((resolve) => setTimeout(resolve, 80));
+        // ⏳ Retraso simulado de 5 segundos para probar el estado de carga de TanStack Query
+        await new Promise((resolve) => setTimeout(resolve, 5000));
 
         const activity = ACTIVITIES_DATA.find((a) => a.id === activityId);
         if (!activity) {
