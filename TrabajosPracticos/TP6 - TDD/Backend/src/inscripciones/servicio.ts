@@ -51,6 +51,15 @@ export function inscribirActividad(
     );
   }
 
+  const anticipacionMs =
+    new Date(solicitud.horario).getTime() - Date.now();
+
+  if (anticipacionMs > 24 * 60 * 60 * 1000) {
+    throw new InscripcionRechazadaError(
+      "FUERA_DE_ANTICIPACION"
+    );
+  }
+
   const codigoQR = `QR-${solicitud.actividad}-${Date.now()}`;
 
   return {
