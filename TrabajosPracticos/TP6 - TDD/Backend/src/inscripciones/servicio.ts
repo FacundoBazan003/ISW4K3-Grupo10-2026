@@ -60,17 +60,7 @@ export function inscribirActividad(
 
   const inscripciones = contexto.inscripciones ?? [];
 
-  for (const participante of solicitud.participantes) {
-    const yaInscripto = inscripciones.some((inscripcion) =>
-      inscripcion.participantes.some(
-        (inscripto) => inscripto.dni === participante.dni
-      )
-    );
-
-    if (yaInscripto) {
-      throw new InscripcionRechazadaError("INSCRIPCION_SUPERPUESTA");
-    }
-  }
+  validarInscripcionesSuperpuestas(solicitud, inscripciones);
 
   if (actividad) {
     validarCupos(solicitud, actividad, inscripciones);
@@ -208,6 +198,30 @@ function validarCupos(
   if (solicitud.participantes.length > cuposDisponibles) {
     throw new InscripcionRechazadaError("SIN_CUPOS");
   }
+}
+
+function validarInscripcionesSuperpuestas(
+  solicitud: any,
+  inscripciones: Inscripcion[]
+): void {
+  for (const participante of solicitud.participantes) {
+    const tieneOtraInscripcion = inscripciones.some((inscripcion) =>
+      estaInscripto(participante, inscripcion)
+    );
+
+    if (tieneOtraInscripcion) {
+      throw new InscripcionRechazadaError("INSCRIPCION_SUPERPUESTA");
+    }
+  }
+}
+
+function estaInscripto(
+  participante: Participante,
+  inscripcion: Inscripcion
+): boolean {
+  return inscripcion.participantes.some(
+    (inscripto) => inscripto.dni === participante.dni
+  );
 }
 
 function validarCierreSemanal(horario: string): void {
