@@ -1,5 +1,11 @@
+import {
+  InscripcionRechazadaError,
+  type Participante,
+} from "./modelos";
+
 const ACTIVIDADES_CON_VESTIMENTA = ["Palestra", "Tirolesa"];
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
+const EDAD_MINIMA_PALESTRA = 12;
 
 export function inscribirActividad(solicitud: any): any {
   if (!solicitud?.actividad) {
@@ -21,6 +27,13 @@ export function inscribirActividad(solicitud: any): any {
       }
     }
   }
+    // Validación de edad mínima de Palestra.
+  if (solicitud.actividad === "Palestra") {
+    validarEdadMinima(
+      solicitud.participantes,
+      EDAD_MINIMA_PALESTRA
+    );
+  }
 
   const codigoQR = `QR-${solicitud.actividad}-${Date.now()}`;
 
@@ -28,4 +41,17 @@ export function inscribirActividad(solicitud: any): any {
     exito: true,
     codigoQR,
   };
+}
+
+function validarEdadMinima(
+  participantes: Participante[],
+  edadMinima: number
+): void {
+  for (const participante of participantes) {
+    if (participante.edad < edadMinima) {
+      throw new InscripcionRechazadaError(
+        "EDAD_MINIMA_NO_CUMPLIDA"
+      );
+    }
+  }
 }
