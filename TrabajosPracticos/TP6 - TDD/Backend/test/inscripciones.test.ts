@@ -222,8 +222,31 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 7. RESTRICCIONES HORARIAS Y DE ANTICIPACIÓN
   // =========================================================================
 
-  it("rechaza reservas con más de 24 horas de anticipación", () => {
-    // Reserva intentada más de 24 horas antes del turno
+  it("rechaza reservas con más de 24 horas de anticipación", (t) => {
+    // Arrange: el turno comienza 25 horas después.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-21T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "FUERA_DE_ANTICIPACION"
+    );
   });
 
   it("rechaza inscripciones a 15 minutos o menos del inicio", () => {
