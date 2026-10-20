@@ -206,7 +206,30 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Mismo participante intentando reservar dos actividades en el mismo horario
   });
 
-  it("rechaza inscripciones si no se aceptan los términos y condiciones", () => {
-    // Parámetro de aceptación en false
+  it("rechaza inscripciones si no se aceptan los términos y condiciones", (t) => {
+    // Arrange: solicitud válida, excepto por los términos.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: false,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "TERMINOS_NO_ACEPTADOS"
+    );
   });
 });
