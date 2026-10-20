@@ -188,8 +188,23 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 4. VESTIMENTA Y TALLES
   // =========================================================================
 
-  it("rechaza inscripciones si falta el talle requerido", () => {
-    // Solicitud a 'Palestra' o 'Tirolesa' sin especificar talle
+    it("rechaza inscripciones si falta el talle requerido", () => {
+    // Precondiciones: Palestra requiere vestimenta y el participante no informa talle
+    const solicitud = {
+      actividad: "Palestra",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [{ nombre: "Ana Gómez", dni: "35987654", edad: 16 }],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "VESTIMENTA_REQUERIDA",
+      "Debe rechazar la inscripción si falta el talle en una actividad que lo requiere"
+    );
   });
 
   it("rechaza inscripciones si el talle de vestimenta no es válido", () => {
