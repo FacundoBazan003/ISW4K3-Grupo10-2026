@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
+import { esEdadParticipanteValida } from "../src/api/reglas";
 
 import {
   InscripcionRechazadaError,
@@ -269,6 +270,18 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
         error instanceof InscripcionRechazadaError &&
         error.motivo === "PARTICIPANTE_INCOMPLETO",
     );
+  });
+
+  it("rechaza una edad omitida", () => {
+    assert.strictEqual(esEdadParticipanteValida(undefined), false);
+  });
+
+  it("rechaza una edad decimal", () => {
+    assert.strictEqual(esEdadParticipanteValida(25.5), false);
+  });
+
+  it("rechaza una edad mayor a 120", () => {
+    assert.strictEqual(esEdadParticipanteValida(121), false);
   });
 
   it("rechaza participantes sin nombre", (t) => {
