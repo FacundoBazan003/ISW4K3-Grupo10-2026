@@ -98,8 +98,30 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Lista de participantes vacía []
   });
 
-  it("rechaza participantes incompletos", () => {
-    // Participante sin DNI o sin edad
+  it("rechaza participantes incompletos", (t) => {
+    // Arrange: solicitud válida, excepto por el DNI omitido.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "PARTICIPANTE_INCOMPLETO"
+    );
   });
 
   it("rechaza inscripciones a actividades no disponibles", () => {
