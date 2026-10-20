@@ -368,8 +368,31 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
   // 6. CALENDARIO: DÍAS DE CIERRE Y FERIADOS
   // =========================================================================
 
-  it("rechaza inscripciones en días semanales de cierre del parque", () => {
-    // Turno correspondiente a un día lunes
+  it("rechaza inscripciones en días semanales de cierre del parque", (t) => {
+    // Arrange: reservamos el domingo para un turno del lunes.
+    const ahora = new Date("2026-10-25T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-26T09:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "PARQUE_CERRADO"
+    );
   });
 
   it("rechaza inscripciones en feriados", () => {
