@@ -218,9 +218,49 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 3. REGLAS DE CUPOS Y DISPONIBILIDAD
   // =========================================================================
 
-  it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", () => {
-    // Intentar inscribir más participantes que el cupo libre del turno
-  });
+it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (t) => {
+  // Arrange: Safari tiene 7 de sus 8 lugares ocupados.
+  const ahora = new Date("2026-10-20T10:00:00-03:00");
+  t.mock.method(Date, "now", () => ahora.getTime());
+
+  const horario = "2026-10-20T11:00:00-03:00";
+
+  const inscripciones: Inscripcion[] = [
+    {
+      id: 1,
+      usuarioId: "otro-visitante",
+      actividadId: "safari",
+      fechaHora: horario,
+      participantes: Array.from({ length: 7 }, (_, indice) => ({
+        dni: String(30000000 + indice),
+        edad: 25,
+      })),
+    },
+  ];
+
+  const contexto = {
+    actividades: crearActividadesMock(),
+    inscripciones,
+  };
+
+  const solicitud = {
+    actividad: "Safari",
+    horario,
+    participantes: [
+      { nombre: "Juan Pérez", dni: "40123456", edad: 25 },
+      { nombre: "Ana Gómez", dni: "41234567", edad: 30 },
+    ],
+    aceptaTerminos: true,
+  };
+
+  // Act y Assert
+  assert.throws(
+    () => inscribirActividad(solicitud, contexto),
+    (error: unknown) =>
+      error instanceof InscripcionRechazadaError &&
+      error.motivo === "SIN_CUPOS"
+  );
+});
 
   // =========================================================================
   // 4. VESTIMENTA Y TALLES
