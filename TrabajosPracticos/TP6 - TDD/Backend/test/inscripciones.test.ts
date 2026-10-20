@@ -6,7 +6,10 @@ import {
   InscripcionRechazadaError,
   type Inscripcion,
 } from "../src/inscripciones/modelos";
-import { crearActividadesMock } from "../src/inscripciones/datos-mocks";
+import {
+  crearActividadesMock,
+  crearHorarioParqueMock,
+} from "../src/inscripciones/datos-mocks";
 
 describe("Pruebas para la lógica de inscripción a actividades del parque", () => {
   // =========================================================================
@@ -540,34 +543,33 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Horario con minutos fraccionados (ej. 10:15 o 14:30)
   });
 
-  it("rechaza inscripciones durante horarios de cierre del parque", () => {
-    // Horarios fuera de la jornada del parque (8:30 a 19:00)
-    it("rechaza inscripciones durante horarios de cierre del parque", () => {
-      const horarioParque = {
-        ...crearHorarioParqueMock(),
-        cierre: "16:30",
-      };
-      const servicio = new ServicioInscripciones({
-        actividades: crearActividadesMock(),
-        horarioParque,
-        horariosActividades: crearHorariosActividadesMock(),
-        sesion: crearSesionUsuarioMock(),
-        ahora: () => new Date("2026-10-20T12:00:00-03:00"),
-      });
+  it("rechaza inscripciones durante horarios de cierre del parque", (t) => {
+    const ahora = new Date("2026-10-20T12:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
 
-      assert.throws(
-        () =>
-          servicio.inscribir({
-            actividadId: "safari",
-            fechaHora: "20/10/2026 17:00",
-            participantes: [{ dni: "12345678", edad: 30 }],
-            aceptaTerminos: true,
-          }),
-        (error: unknown) =>
-          error instanceof InscripcionRechazadaError &&
-          error.motivo === "PARQUE_CERRADO",
-      );
-    });
+    const horarioParque = {
+      ...crearHorarioParqueMock(),
+      cierre: "16:30",
+    };
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T17:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 30,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    assert.throws(
+      () => inscribirActividad(solicitud, { horarioParque }),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "PARQUE_CERRADO",
+    );
   });
 
   // =========================================================================

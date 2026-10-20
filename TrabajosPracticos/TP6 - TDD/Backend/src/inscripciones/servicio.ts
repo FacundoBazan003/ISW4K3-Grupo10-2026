@@ -1,5 +1,6 @@
 import {
   crearActividadesMock,
+  crearHorarioParqueMock,
   crearSesionUsuarioMock,
   crearReglasCierreParqueMock,
 } from "./datos-mocks";
@@ -26,6 +27,7 @@ const DIAS_SEMANA: DiaSemana[] = [
 interface ContextoInscripcion {
   actividades?: Actividad[];
   inscripciones?: Inscripcion[];
+  horarioParque?: ReturnType<typeof crearHorarioParqueMock>;
 }
 
 export function inscribirActividad(
@@ -57,6 +59,10 @@ export function inscribirActividad(
   validarAnticipacion(solicitud.horario);
 
   validarCierreSemanal(solicitud.horario);
+  validarCierreHorario(
+    solicitud.horario,
+    contexto.horarioParque ?? crearHorarioParqueMock(),
+  );
 
   const inscripciones = contexto.inscripciones ?? [];
 
@@ -239,4 +245,46 @@ function validarCierreSemanal(horario: string): void {
   if (reglasCierre.diasCerrados.includes(diaTurno)) {
     throw new InscripcionRechazadaError("PARQUE_CERRADO");
   }
+}
+
+function validarCierreHorario(
+  horario: string,
+  horarioParque: ReturnType<typeof crearHorarioParqueMock>,
+): void {
+  const fechaTurno = new Date(horario);
+  if (Number.isNaN(fechaTurno.getTime())) {
+    throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
+  }
+
+  const horaEnParque = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(fechaTurno);
+  const minutosTurno = minutosDesdeMedianoche(horaEnParque);
+  const minutosApertura = minutosDesdeMedianoche(horarioParque.apertura);
+  const minutosCierre = minutosDesdeMedianoche(horarioParque.cierre);
+
+  if (
+    minutosTurno === undefined ||
+    minutosApertura === undefined ||
+    minutosCierre === undefined ||
+    minutosApertura >= minutosCierre
+  ) {
+    throw new Error("El horario de apertura o cierre del parque es inválido.");
+  }
+
+  if (minutosTurno < minutosApertura || minutosTurno >= minutosCierre) {
+    throw new InscripcionRechazadaError("PARQUE_CERRADO");
+  }
+}
+
+function minutosDesdeMedianoche(hora: string): number | undefined {
+  const coincidencia = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(hora);
+  if (!coincidencia) {
+    return undefined;
+  }
+
+  return Number(coincidencia[1]) * 60 + Number(coincidencia[2]);
 }
