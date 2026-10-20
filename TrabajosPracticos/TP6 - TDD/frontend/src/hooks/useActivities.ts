@@ -40,6 +40,7 @@ export function useSlotsAvailability(
             return activityService.getSlotsAvailability(activityId, fecha);
         },
         enabled: Boolean(activityId && fecha),
+        staleTime: 0,
         refetchInterval: 15000,
         retry: false,
     });

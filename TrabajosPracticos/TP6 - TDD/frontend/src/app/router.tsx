@@ -5,6 +5,9 @@ import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/auth/LoginPage";
 import InscriptionPage from "@/pages/inscription/InscriptionPage";
 
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import PublicRoute from "@/components/auth/PublicRoute";
+
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -16,15 +19,27 @@ export const router = createBrowserRouter([
             },
             {
                 path: "inscribirme",
-                Component: InscriptionPage,
+                element: (
+                    <ProtectedRoute>
+                        <InscriptionPage />
+                    </ProtectedRoute>
+                ),
             },
             {
                 path: "inscribirme/:activityId",
-                Component: InscriptionPage,
+                element: (
+                    <ProtectedRoute>
+                        <InscriptionPage />
+                    </ProtectedRoute>
+                ),
             },
             {
                 path: "login",
-                Component: LoginPage,
+                element: (
+                    <PublicRoute>
+                        <LoginPage />
+                    </PublicRoute>
+                ),
             },
         ],
     },

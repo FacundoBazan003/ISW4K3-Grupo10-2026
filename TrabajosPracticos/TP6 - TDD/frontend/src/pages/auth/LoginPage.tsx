@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import {
     EnvelopeSimpleIcon,
     SignInIcon,
@@ -24,6 +24,9 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as { from?: string } | null)?.from || "/";
+
     const login = useAuthStore((state) => state.login);
     const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -54,7 +57,7 @@ export default function LoginPage() {
         }
 
         login(foundUser);
-        navigate("/");
+        navigate(from, { replace: true });
     };
 
     const handleSelectMockUser = (user: User) => {

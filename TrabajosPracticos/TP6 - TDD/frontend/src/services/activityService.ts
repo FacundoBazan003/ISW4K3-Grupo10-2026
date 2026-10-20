@@ -106,7 +106,9 @@ export const activityService = {
     getParkRules(): Promise<ParkRules> {
         return request<ParkRules>("/parque/reglas");
     },
-    getSlotsAvailability(activityId: ActivityId, fecha: string): Promise<SlotAvailability[]> {
+    async getSlotsAvailability(activityId: ActivityId, fecha: string): Promise<SlotAvailability[]> {
+        // Retraso simulado de 2 segundos para mostrar el estado de carga de TanStack Query.
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         return request<SlotAvailability[]>(
             `/actividades/${encodeURIComponent(activityId)}/turnos?fecha=${encodeURIComponent(fecha)}`,
         );
