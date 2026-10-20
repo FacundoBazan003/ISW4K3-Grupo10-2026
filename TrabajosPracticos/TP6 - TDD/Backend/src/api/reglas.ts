@@ -27,6 +27,15 @@ export class SolicitudApiError extends Error {
   }
 }
 
+export function esEdadParticipanteValida(edad: unknown): edad is number {
+  return (
+    typeof edad === "number" &&
+    Number.isInteger(edad) &&
+    edad >= 0 &&
+    edad <= 120
+  );
+}
+
 export function validarFecha(fecha: unknown): asserts fecha is string {
   if (typeof fecha !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
     throw new SolicitudApiError(
