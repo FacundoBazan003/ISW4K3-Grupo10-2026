@@ -7,7 +7,6 @@ import {
 } from "./modelos";
 
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
-const EDAD_MINIMA_PALESTRA = 12;
 const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
 
 interface ContextoInscripcion {
@@ -37,21 +36,11 @@ export function inscribirActividad(
 
   // Validación de vestimenta si la actividad lo demanda
   if (actividad?.requiereVestimenta) {
-    for (const p of solicitud.participantes) {
-      if (!p.talla) {
-        throw new Error("Requiere talle de vestimenta");
-      }
-      if (!TALLES_PERMITIDOS.includes(p.talla)) {
-        throw new Error("Talle no válido");
-      }
-    }
+    validarVestimenta(solicitud.participantes);
   }
-    // Validación de edad mínima de Palestra.
-  if (solicitud.actividad === "Palestra") {
-    validarEdadMinima(
-      solicitud.participantes,
-      EDAD_MINIMA_PALESTRA
-    );
+  // Validación de edad mínima si la actividad la define
+  if (actividad?.edadMinima !== undefined) {
+    validarEdadMinima(solicitud.participantes, actividad.edadMinima);
   }
 
   validarAnticipacion(solicitud.horario);
@@ -143,4 +132,16 @@ function registrarInscripcion(
   };
 
   inscripciones.push(nuevaInscripcion);
+}
+
+function validarVestimenta(participantes: { talla?: string }[]): void {
+  for (const participante of participantes) {
+    if (!participante.talla) {
+      throw new InscripcionRechazadaError("VESTIMENTA_REQUERIDA");
+    }
+
+    if (!TALLES_PERMITIDOS.includes(participante.talla)) {
+      throw new Error("Talle no válido");
+    }
+  }
 }

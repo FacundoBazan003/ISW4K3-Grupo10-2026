@@ -226,8 +226,23 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
   // 4. VESTIMENTA Y TALLES
   // =========================================================================
 
-  it("rechaza inscripciones si falta el talle requerido", () => {
-    // Solicitud a 'Palestra' o 'Tirolesa' sin especificar talle
+    it("rechaza inscripciones si falta el talle requerido", () => {
+    // Precondiciones: Palestra requiere vestimenta y el participante no informa talle
+    const solicitud = {
+      actividad: "Palestra",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [{ nombre: "Ana Gómez", dni: "35987654", edad: 16 }],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "VESTIMENTA_REQUERIDA",
+      "Debe rechazar la inscripción si falta el talle en una actividad que lo requiere"
+    );
   });
 
   it("rechaza inscripciones si el talle de vestimenta no es válido", () => {
@@ -266,8 +281,47 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
-    // Participante con exactamente 8 años inscribiéndose a Tirolesa
+    it("rechaza participantes menores a la edad mínima de Tirolesa", () => {
+    // Precondiciones: Tirolesa exige 8 años como mínimo
+    const solicitud = {
+      actividad: "Tirolesa",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        { nombre: "Tomás Díaz", dni: "55123456", edad: 7, talla: "S" },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "EDAD_MINIMA_NO_CUMPLIDA",
+      "Debe rechazar a un participante de 7 años en Tirolesa"
+    );
+  });
+
+    it("acepta participantes que cumplen la edad mínima de Tirolesa", () => {
+    // Precondiciones: participante con exactamente 8 años (edad mínima de Tirolesa)
+    const solicitud = {
+      actividad: "Tirolesa",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        { nombre: "Lucía Ríos", dni: "54123456", edad: 8, talla: "S" },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos
+    const resultado = inscribirActividad(solicitud);
+
+    // Resultado
+    assert.strictEqual(
+      resultado.exito,
+      true,
+      "Debe aceptar a un participante con exactamente la edad mínima"
+    );
   });
 
   // =========================================================================
