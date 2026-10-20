@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 interface ActivityCardInfo {
     id: string;
     name: string;
@@ -137,12 +139,12 @@ export default function HomePage() {
                                 </div>
                             </div>
 
-                            <button
-                                type="button"
-                                className="btn btn-primary btn-sm rounded-full w-full mt-5 font-bold shadow-xs active:scale-95 transition-transform"
+                            <Link
+                                to={`/inscribirme?activity=${act.id}`}
+                                className="btn btn-primary btn-sm rounded-full w-full mt-5 font-bold shadow-xs active:scale-95 transition-transform text-center flex items-center justify-center"
                             >
                                 Inscribirme
-                            </button>
+                            </Link>
                         </div>
                     ))}
                 </div>

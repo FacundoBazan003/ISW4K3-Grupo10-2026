@@ -60,7 +60,7 @@ export default function MainLayout() {
                         )}
 
                         <Link
-                            to="/"
+                            to="/inscribirme"
                             className="btn btn-primary rounded-full px-5 text-sm font-bold shadow-sm transition-transform active:scale-95"
                         >
                             Inscribirme a Actividad
