@@ -4,12 +4,20 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
-    "test": "tsx --test test/inscripciones.test.ts"
+    "test": "tsx --test test/*.test.ts",
+    "test:dominio": "tsx --test test/inscripciones.test.ts",
+    "test:api": "tsx --test test/api.test.ts",
+    "test:sqlite": "tsx --test test/sqlite.test.ts",
+    "db:ver": "tsx src/ver-bd.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.5",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
