@@ -1,5 +1,6 @@
 import {
   InscripcionRechazadaError,
+  type Actividad,
   type Participante,
 } from "./modelos";
 
@@ -7,9 +8,23 @@ const ACTIVIDADES_CON_VESTIMENTA = ["Palestra", "Tirolesa"];
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const EDAD_MINIMA_PALESTRA = 12;
 
-export function inscribirActividad(solicitud: any): any {
+interface ContextoInscripcion {
+  actividades?: Actividad[];
+}
+
+export function inscribirActividad(
+  solicitud: any,
+  contexto: ContextoInscripcion = {}
+): any {
   if (!solicitud?.actividad) {
     throw new Error("Debe seleccionar una actividad");
+  }
+
+  const actividad = contexto.actividades?.find(
+    (actividad) => actividad.nombre === solicitud.actividad
+  );
+  if (actividad?.disponible === false) {
+    throw new InscripcionRechazadaError("ACTIVIDAD_NO_DISPONIBLE");
   }
 
   if (!solicitud.participantes || solicitud.participantes.length === 0) {
