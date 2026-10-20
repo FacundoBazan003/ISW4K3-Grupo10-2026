@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { XIcon, ShieldCheckIcon } from "@phosphor-icons/react";
 import type { InscriptionFormData } from "@/schemas/inscriptionSchema";
 
 interface TermsModalProps {
@@ -63,8 +64,9 @@ export default function TermsModal({
                     <div className="modal-box max-w-lg rounded-3xl bg-base-100 p-6 border border-base-300 shadow-2xl">
                         <div className="flex items-center justify-between pb-3 border-b border-base-200">
                             <div>
-                                <span className="text-[10px] uppercase font-bold tracking-widest text-primary">
-                                    EcoHarmony Park • Seguridad
+                                <span className="text-[10px] uppercase font-bold tracking-widest text-primary flex items-center gap-1">
+                                    <ShieldCheckIcon size={14} weight="bold" />
+                                    <span>EcoHarmony Park • Seguridad</span>
                                 </span>
                                 <h3 className="text-lg font-bold text-base-content">
                                     Términos y Condiciones: {activityName}
@@ -74,8 +76,9 @@ export default function TermsModal({
                                 type="button"
                                 onClick={() => setIsOpen(false)}
                                 className="btn btn-sm btn-circle btn-ghost"
+                                aria-label="Cerrar modal"
                             >
-                                ✕
+                                <XIcon size={16} weight="bold" />
                             </button>
                         </div>
 

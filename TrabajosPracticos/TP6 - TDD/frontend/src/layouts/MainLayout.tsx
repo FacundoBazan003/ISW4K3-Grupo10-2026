@@ -1,5 +1,11 @@
 import { Outlet, Link } from "react-router";
 import { useAuthStore } from "@/store/authStore";
+import {
+    UserCircleIcon,
+    SignOutIcon,
+    SignInIcon,
+    TicketIcon,
+} from "@phosphor-icons/react";
 
 import logoNavbar from "@/assets/img/logo.png";
 import logoFooter from "@/assets/img/logo_footer.png";
@@ -38,32 +44,35 @@ export default function MainLayout() {
                         {isAuthenticated && user ? (
                             <div className="flex items-center gap-2">
                                 <div className="hidden sm:flex items-center gap-2 rounded-full bg-base-200/80 px-3.5 py-1.5 border border-base-300/80 text-xs text-base-content">
-                                    <span className="h-2 w-2 rounded-full bg-secondary animate-pulse" />
+                                    <UserCircleIcon size={16} weight="duotone" className="text-secondary" />
                                     <span className="font-bold text-base-content">{user.name}</span>
                                 </div>
                                 <button
                                     type="button"
                                     onClick={logout}
-                                    className="btn btn-ghost btn-xs text-base-content/70 hover:text-error"
+                                    className="btn btn-ghost btn-xs text-base-content/70 hover:text-error flex items-center gap-1"
                                     title="Cerrar sesión"
                                 >
-                                    Salir
+                                    <SignOutIcon size={14} weight="bold" />
+                                    <span>Salir</span>
                                 </button>
                             </div>
                         ) : (
                             <Link
                                 to="/login"
-                                className="btn btn-ghost btn-sm text-xs font-bold rounded-full"
+                                className="btn btn-ghost btn-sm text-xs font-bold rounded-full flex items-center gap-1.5"
                             >
-                                Iniciar Sesión
+                                <SignInIcon size={14} weight="bold" />
+                                <span>Iniciar Sesión</span>
                             </Link>
                         )}
 
                         <Link
                             to="/inscribirme"
-                            className="btn btn-primary rounded-full px-5 text-sm font-bold shadow-sm transition-transform active:scale-95"
+                            className="btn btn-primary rounded-full px-5 text-sm font-bold shadow-sm transition-transform active:scale-95 flex items-center gap-1.5"
                         >
-                            Inscribirme a Actividad
+                            <TicketIcon size={16} weight="bold" />
+                            <span>Inscribirme a Actividad</span>
                         </Link>
                     </div>
                 </nav>

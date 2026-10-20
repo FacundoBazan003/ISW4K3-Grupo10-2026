@@ -3,6 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, Link } from "react-router";
+import {
+    EnvelopeSimpleIcon,
+    SignInIcon,
+    UserIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+} from "@phosphor-icons/react";
 import { useAuthStore } from "@/store/authStore";
 import { userMock, type User } from "@/mocks/users.mocks";
 
@@ -75,7 +82,8 @@ export default function LoginPage() {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="form-control">
                         <label className="label" htmlFor="email-input">
-                            <span className="label-text font-bold text-xs text-base-content">
+                            <span className="label-text font-bold text-xs text-base-content flex items-center gap-1.5">
+                                <EnvelopeSimpleIcon size={16} weight="duotone" className="text-primary" />
                                 Correo electrónico
                             </span>
                         </label>
@@ -104,9 +112,10 @@ export default function LoginPage() {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="btn btn-primary w-full rounded-full font-bold shadow-xs active:scale-95 transition-transform mt-2"
+                        className="btn btn-primary w-full rounded-full font-bold shadow-xs active:scale-95 transition-transform mt-2 flex items-center justify-center gap-2"
                     >
-                        Ingresar
+                        <SignInIcon size={18} weight="bold" />
+                        <span>Ingresar</span>
                     </button>
                 </form>
 
@@ -127,16 +136,22 @@ export default function LoginPage() {
                                 onClick={() => handleSelectMockUser(u)}
                                 className="w-full text-left p-2.5 rounded-xl border border-base-200 hover:border-primary/50 hover:bg-base-200/60 transition-all flex items-center justify-between group"
                             >
-                                <div>
-                                    <p className="text-xs font-bold text-base-content group-hover:text-primary transition-colors">
-                                        {u.name}
-                                    </p>
-                                    <p className="text-[11px] text-base-content/60 font-mono">
-                                        {u.email}
-                                    </p>
+                                <div className="flex items-center gap-2.5">
+                                    <div className="p-1.5 rounded-lg bg-base-200 text-base-content/70 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                                        <UserIcon size={16} weight="duotone" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold text-base-content group-hover:text-primary transition-colors">
+                                            {u.name}
+                                        </p>
+                                        <p className="text-[11px] text-base-content/60 font-mono">
+                                            {u.email}
+                                        </p>
+                                    </div>
                                 </div>
-                                <span className="text-xs text-primary font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Usar →
+                                <span className="text-xs text-primary font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                                    <span>Usar</span>
+                                    <ArrowRightIcon size={14} weight="bold" />
                                 </span>
                             </button>
                         ))}
@@ -146,9 +161,10 @@ export default function LoginPage() {
                 <div className="mt-6 text-center">
                     <Link
                         to="/"
-                        className="text-xs text-base-content/70 hover:text-primary hover:underline transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs text-base-content/70 hover:text-primary hover:underline transition-colors"
                     >
-                        ← Volver a Actividades
+                        <ArrowLeftIcon size={14} weight="bold" />
+                        <span>Volver a Actividades</span>
                     </Link>
                 </div>
             </div>

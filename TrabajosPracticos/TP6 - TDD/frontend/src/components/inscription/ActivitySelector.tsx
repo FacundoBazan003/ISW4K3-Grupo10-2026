@@ -1,4 +1,27 @@
 import type { Activity, ActivityId } from "@/types/activity";
+import {
+    TreeIcon,
+    JeepIcon,
+    MountainsIcon,
+    PottedPlantIcon,
+    CheckIcon,
+    SparkleIcon,
+} from "@phosphor-icons/react";
+
+function renderActivityIcon(id: ActivityId) {
+    switch (id) {
+        case "tirolesa":
+            return <TreeIcon size={26} weight="duotone" className="text-primary" />;
+        case "safari":
+            return <JeepIcon size={26} weight="duotone" className="text-primary" />;
+        case "palestra":
+            return <MountainsIcon size={26} weight="duotone" className="text-primary" />;
+        case "jardineria":
+            return <PottedPlantIcon size={26} weight="duotone" className="text-primary" />;
+        default:
+            return <SparkleIcon size={26} weight="duotone" className="text-primary" />;
+    }
+}
 
 interface ActivitySelectorProps {
     activities: Activity[];
@@ -40,12 +63,13 @@ export default function ActivitySelector({
                         >
                             <div className="space-y-2.5">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-2xl p-2 rounded-xl bg-base-200/80">
-                                        {act.icon}
+                                    <span className="p-2 rounded-xl bg-base-200/80 flex items-center justify-center">
+                                        {renderActivityIcon(act.id)}
                                     </span>
                                     {isSelected ? (
-                                        <span className="badge badge-primary badge-xs font-bold">
-                                            ✓ Elegida
+                                        <span className="badge badge-primary badge-xs font-bold flex items-center gap-1">
+                                            <CheckIcon size={10} weight="bold" />
+                                            <span>Elegida</span>
                                         </span>
                                     ) : (
                                         <span className="badge badge-ghost badge-xs text-base-content/70">

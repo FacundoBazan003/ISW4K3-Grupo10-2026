@@ -1,4 +1,11 @@
 import { Link } from "react-router";
+import {
+    EnvelopeSimpleIcon,
+    XIcon,
+    CheckCircleIcon,
+    PaperclipIcon,
+    DownloadSimpleIcon,
+} from "@phosphor-icons/react";
 import type { Reservation } from "@/types/activity";
 import logoNavbar from "@/assets/img/logo.png";
 
@@ -17,7 +24,9 @@ export default function EmailConfirmationModal({
                 {/* Header estilo Cliente de Correo */}
                 <div className="bg-neutral text-neutral-content px-6 py-4 flex items-center justify-between border-b border-neutral/20">
                     <div className="flex items-center gap-3">
-                        <span className="text-xl">✉️</span>
+                        <span className="p-2 bg-neutral-content/10 rounded-xl flex items-center justify-center">
+                            <EnvelopeSimpleIcon size={20} weight="duotone" />
+                        </span>
                         <div>
                             <p className="text-xs font-bold uppercase tracking-wider text-neutral-content/70">
                                 Correo Electrónico Enviado
@@ -31,8 +40,9 @@ export default function EmailConfirmationModal({
                         type="button"
                         onClick={onClose}
                         className="btn btn-xs btn-circle btn-ghost text-neutral-content hover:bg-neutral-content/10"
+                        aria-label="Cerrar modal"
                     >
-                        ✕
+                        <XIcon size={14} weight="bold" />
                     </button>
                 </div>
 
@@ -67,8 +77,9 @@ export default function EmailConfirmationModal({
                             alt="EcoHarmony Park"
                             className="h-10 w-auto mx-auto object-contain mb-2"
                         />
-                        <span className="badge badge-primary font-bold text-xs">
-                            Inscripción Exitosa
+                        <span className="badge badge-primary font-bold text-xs gap-1 py-2 px-3">
+                            <CheckCircleIcon size={14} weight="bold" />
+                            <span>Inscripción Exitosa</span>
                         </span>
                         <h2 className="text-xl font-extrabold text-base-content">
                             ¡Todo listo para tu aventura!
@@ -177,9 +188,11 @@ export default function EmailConfirmationModal({
                     </div>
 
                     {/* Archivo Adjunto simulado (FAQ 5) */}
-                    <div className="bg-base-200/50 border border-base-300 rounded-2xl p-3 flex items-center justify-between">
+                    <div className="bg-base-200/50 border border-base-300 rounded-2xl p-3.5 flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
-                            <span className="text-2xl">📎</span>
+                            <span className="p-2 bg-base-100 rounded-xl border border-base-300/60 flex items-center justify-center">
+                                <PaperclipIcon size={22} weight="duotone" className="text-primary" />
+                            </span>
                             <div className="text-left">
                                 <p className="text-xs font-bold text-base-content">
                                     Voucher_Reserva_{reservation.orderNumber}.pdf
@@ -192,9 +205,10 @@ export default function EmailConfirmationModal({
                         <button
                             type="button"
                             onClick={() => alert("Comprobante PDF simulado descargado correctamente.")}
-                            className="btn btn-ghost btn-xs text-primary font-bold hover:underline"
+                            className="btn btn-ghost btn-xs text-primary font-bold hover:underline flex items-center gap-1"
                         >
-                            Descargar ↓
+                            <DownloadSimpleIcon size={14} weight="bold" />
+                            <span>Descargar</span>
                         </button>
                     </div>
                 </div>

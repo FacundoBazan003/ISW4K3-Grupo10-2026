@@ -1,14 +1,39 @@
 import { Link } from "react-router";
+import {
+    ClockIcon,
+    CalendarCheckIcon,
+    LightningIcon,
+    TreeIcon,
+    JeepIcon,
+    MountainsIcon,
+    PottedPlantIcon,
+    TicketIcon,
+    SparkleIcon,
+} from "@phosphor-icons/react";
 
 interface ActivityCardInfo {
     id: string;
     name: string;
     description: string;
-    icon: string;
     cuposPorTurno: number;
     edadMinima: number | null;
     requiereTalle: boolean;
     turnos: string[];
+}
+
+function renderActivityCardIcon(id: string) {
+    switch (id) {
+        case "tirolesa":
+            return <TreeIcon size={32} weight="duotone" className="text-primary" />;
+        case "safari":
+            return <JeepIcon size={32} weight="duotone" className="text-primary" />;
+        case "palestra":
+            return <MountainsIcon size={32} weight="duotone" className="text-primary" />;
+        case "jardineria":
+            return <PottedPlantIcon size={32} weight="duotone" className="text-primary" />;
+        default:
+            return <SparkleIcon size={32} weight="duotone" className="text-primary" />;
+    }
 }
 
 const ACTIVITIES: ActivityCardInfo[] = [
@@ -16,7 +41,6 @@ const ACTIVITIES: ActivityCardInfo[] = [
         id: "tirolesa",
         name: "Tirolesa",
         description: "Recorrido aéreo a través de las copas de los árboles con vistas panorámicas del parque.",
-        icon: "🌲",
         cuposPorTurno: 10,
         edadMinima: 8,
         requiereTalle: true,
@@ -26,7 +50,6 @@ const ACTIVITIES: ActivityCardInfo[] = [
         id: "safari",
         name: "Safari",
         description: "Expedición guiada por hábitats naturales para observar especies en su entorno protegido.",
-        icon: "🚙",
         cuposPorTurno: 8,
         edadMinima: null,
         requiereTalle: false,
@@ -36,7 +59,6 @@ const ACTIVITIES: ActivityCardInfo[] = [
         id: "palestra",
         name: "Palestra",
         description: "Muro de escalada supervisado con instructores certificados y equipo de seguridad.",
-        icon: "🧗",
         cuposPorTurno: 12,
         edadMinima: 12,
         requiereTalle: true,
@@ -46,7 +68,6 @@ const ACTIVITIES: ActivityCardInfo[] = [
         id: "jardineria",
         name: "Jardinería",
         description: "Taller práctico para conectar con la flora autóctona y aprender técnicas de conservación.",
-        icon: "🌱",
         cuposPorTurno: 12,
         edadMinima: null,
         requiereTalle: false,
@@ -73,13 +94,16 @@ export default function HomePage() {
 
                     <div className="mt-6 flex flex-wrap gap-3 text-xs text-base-content/70">
                         <span className="flex items-center gap-1.5 bg-base-100 px-3 py-1.5 rounded-full border border-base-300">
-                            🕒 Horario: 9:00 a 18:00 hs
+                            <ClockIcon size={14} weight="bold" className="text-primary" />
+                            <span>Horario: 9:00 a 18:00 hs</span>
                         </span>
                         <span className="flex items-center gap-1.5 bg-base-100 px-3 py-1.5 rounded-full border border-base-300">
-                            📅 Abierto: Martes a Domingos (Lunes cerrado)
+                            <CalendarCheckIcon size={14} weight="bold" className="text-primary" />
+                            <span>Abierto: Martes a Domingos (Lunes cerrado)</span>
                         </span>
                         <span className="flex items-center gap-1.5 bg-base-100 px-3 py-1.5 rounded-full border border-base-300">
-                            ⚡ Reserva hasta 15 min antes
+                            <LightningIcon size={14} weight="bold" className="text-primary" />
+                            <span>Reserva hasta 15 min antes</span>
                         </span>
                     </div>
                 </div>
@@ -106,8 +130,8 @@ export default function HomePage() {
                         >
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-3xl p-2.5 bg-base-200/80 rounded-2xl">
-                                        {act.icon}
+                                    <span className="p-2.5 bg-base-200/80 rounded-2xl flex items-center justify-center">
+                                        {renderActivityCardIcon(act.id)}
                                     </span>
                                     <span className="badge badge-accent badge-sm font-semibold">
                                         {act.cuposPorTurno} cupos / turno
@@ -141,9 +165,10 @@ export default function HomePage() {
 
                             <Link
                                 to={`/inscribirme?activity=${act.id}`}
-                                className="btn btn-primary btn-sm rounded-full w-full mt-5 font-bold shadow-xs active:scale-95 transition-transform text-center flex items-center justify-center"
+                                className="btn btn-primary btn-sm rounded-full w-full mt-5 font-bold shadow-xs active:scale-95 transition-transform text-center flex items-center justify-center gap-1.5"
                             >
-                                Inscribirme
+                                <TicketIcon size={16} weight="bold" />
+                                <span>Inscribirme</span>
                             </Link>
                         </div>
                     ))}
