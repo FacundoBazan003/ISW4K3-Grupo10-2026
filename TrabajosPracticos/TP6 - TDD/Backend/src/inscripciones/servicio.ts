@@ -141,10 +141,14 @@ function validarVestimenta(participantes: { talla?: string }[]): void {
       throw new InscripcionRechazadaError("VESTIMENTA_REQUERIDA");
     }
 
-    if (!TALLES_PERMITIDOS.includes(participante.talla)) {
-            throw new InscripcionRechazadaError("TALLE_INVALIDO");
+    if (!esTallePermitido(participante.talla)) {
+      throw new InscripcionRechazadaError("TALLE_INVALIDO");
     }
   }
+}
+
+function esTallePermitido(talla: string): boolean {
+  return TALLES_PERMITIDOS.includes(talla);
 }
 
 function validarCupos(
