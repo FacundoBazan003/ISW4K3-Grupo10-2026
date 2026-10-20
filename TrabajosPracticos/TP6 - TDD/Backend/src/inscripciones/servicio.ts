@@ -66,15 +66,7 @@ export function inscribirActividad(
     contexto.horarioParque ?? crearHorarioParqueMock(),
   );
 
-  const horasActividades = crearHorariosActividadesMock().map((turno) =>
-    Number(turno.split(":")[0])
-  );
-
-  const horaTurno = new Date(solicitud.horario).getHours();
-
-  if (!horasActividades.includes(horaTurno)) {
-    throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
-  }
+  validarHorarioActividad(solicitud.horario);
 
   const inscripciones = contexto.inscripciones ?? [];
 
@@ -274,13 +266,7 @@ function validarCierreHorario(
     throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
   }
 
-  const horaEnParque = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "America/Argentina/Buenos_Aires",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-  }).format(fechaTurno);
-  const minutosTurno = minutosDesdeMedianoche(horaEnParque);
+  const minutosTurno = minutosDesdeMedianoche(horaEnParque(fechaTurno));
   const minutosApertura = minutosDesdeMedianoche(horarioParque.apertura);
   const minutosCierre = minutosDesdeMedianoche(horarioParque.cierre);
 
@@ -296,6 +282,27 @@ function validarCierreHorario(
   if (minutosTurno < minutosApertura || minutosTurno >= minutosCierre) {
     throw new InscripcionRechazadaError("PARQUE_CERRADO");
   }
+}
+
+function validarHorarioActividad(horario: string): void {
+  const horasActividades = crearHorariosActividadesMock().map((turno) =>
+    Number(turno.split(":")[0])
+  );
+
+  const horaTurno = Number(horaEnParque(new Date(horario)).split(":")[0]);
+
+  if (!horasActividades.includes(horaTurno)) {
+    throw new InscripcionRechazadaError("HORARIO_NO_DISPONIBLE");
+  }
+}
+
+function horaEnParque(fecha: Date): string {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "America/Argentina/Buenos_Aires",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(fecha);
 }
 
 function minutosDesdeMedianoche(hora: string): number | undefined {
