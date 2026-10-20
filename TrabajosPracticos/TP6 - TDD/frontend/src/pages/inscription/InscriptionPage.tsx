@@ -213,6 +213,7 @@ export default function InscriptionPage() {
                             requiereTalle={selectedActivity?.requiereTalle ?? false}
                             edadMinima={selectedActivity?.edadMinima ?? null}
                             cuposDisponibles={selectedSlotInfo?.cuposDisponibles}
+                            hasSelectedHorario={Boolean(selectedHorario && selectedSlotInfo?.disponible)}
                         />
                         {errors.participantes?.root && (
                             <p className="text-error text-xs font-medium mt-2">

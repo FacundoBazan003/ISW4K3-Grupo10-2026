@@ -80,16 +80,16 @@ export default function ScheduleSelector({
                             type="button"
                             disabled={isDisabled}
                             onClick={() => onSelectHorario(slot.horario)}
-                            className={`flex min-h-20.5 flex-col justify-between rounded-2xl border p-3.5 text-left transition-all ${
+                            className={`flex min-h-[5.25rem] flex-col justify-between rounded-2xl border p-3.5 text-left transition-all ${
                                 isDisabled
-                                    ? "bg-base-200/50 border-base-300 cursor-not-allowed opacity-55"
+                                    ? "bg-base-200/50 border-base-300 cursor-not-allowed opacity-60"
                                     : isSelected
                                       ? "border-primary bg-primary text-primary-content ring-primary/20 scale-[1.01] shadow-sm ring-2"
                                       : "border-base-300 bg-base-100 hover:border-primary/60 hover:bg-base-200/60 shadow-xs"
                             }`}
                         >
                             <div className="flex w-full items-center justify-between">
-                                <span className="font-mono text-sm font-extrabold">
+                                <span className="font-mono text-sm font-extrabold whitespace-nowrap">
                                     {slot.horario} hs
                                 </span>
                                 {isSelected && (
@@ -99,10 +99,19 @@ export default function ScheduleSelector({
                                 )}
                             </div>
 
-                            <div className="mt-2.5 flex w-full items-center justify-between gap-1">
+                            <div className="mt-2.5 flex w-full items-center">
                                 {isDisabled ? (
-                                    <span className="badge badge-error badge-xs shrink-0 px-2 py-1 font-bold">
-                                        {slot.cuposDisponibles === 0 ? "Sin cupo" : "No disponible"}
+                                    <span
+                                        className="badge badge-error badge-xs font-semibold px-2 py-1 leading-none"
+                                        title={slot.motivoNoDisponible}
+                                    >
+                                        {slot.cuposDisponibles === 0
+                                            ? "Sin cupos"
+                                            : slot.motivoNoDisponible?.includes("15 min")
+                                              ? "Turno cerrado"
+                                              : slot.motivoNoDisponible?.includes("24 hs")
+                                                ? "Habilita 24 hs antes"
+                                                : "No disponible"}
                                     </span>
                                 ) : (
                                     <span
@@ -115,15 +124,6 @@ export default function ScheduleSelector({
                                         }`}
                                     >
                                         {slot.cuposDisponibles} de {slot.cupoMaximo} libres
-                                    </span>
-                                )}
-
-                                {isDisabled && slot.motivoNoDisponible && (
-                                    <span
-                                        className="text-base-content/60 block truncate text-right text-[10px]"
-                                        title={slot.motivoNoDisponible}
-                                    >
-                                        {slot.motivoNoDisponible}
                                     </span>
                                 )}
                             </div>
