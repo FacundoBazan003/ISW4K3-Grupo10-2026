@@ -1,7 +1,12 @@
-import { crearActividadesMock, crearSesionUsuarioMock } from "./datos-mocks";
+import {
+  crearActividadesMock,
+  crearSesionUsuarioMock,
+  crearReglasCierreParqueMock,
+} from "./datos-mocks";
 import {
   InscripcionRechazadaError,
   type Actividad,
+  type DiaSemana,
   type Inscripcion,
   type Participante,
 } from "./modelos";
@@ -44,6 +49,25 @@ export function inscribirActividad(
   }
 
   validarAnticipacion(solicitud.horario);
+
+  const reglasCierre = crearReglasCierreParqueMock();
+
+  const diasSemana: DiaSemana[] = [
+    "DOMINGO",
+    "LUNES",
+    "MARTES",
+    "MIERCOLES",
+    "JUEVES",
+    "VIERNES",
+    "SABADO",
+  ];
+
+  const fechaTurno = new Date(solicitud.horario);
+  const diaTurno = diasSemana[fechaTurno.getDay()];
+
+  if (reglasCierre.diasCerrados.includes(diaTurno)) {
+    throw new InscripcionRechazadaError("PARQUE_CERRADO");
+  }
 
   const inscripciones = contexto.inscripciones ?? [];
 
