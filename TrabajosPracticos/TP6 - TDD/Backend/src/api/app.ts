@@ -16,6 +16,7 @@ import {
 } from "../persistencia/almacen";
 import {
   fechaHoraDelParque,
+  esEdadParticipanteValida,
   MENSAJES_RECHAZO,
   SolicitudApiError,
   validarFecha,
@@ -52,10 +53,7 @@ function leerParticipantes(value: unknown): ParticipanteApi[] {
       !esObjeto(p) ||
       (p.nombre !== undefined && typeof p.nombre !== "string") ||
       (p.dni !== undefined && typeof p.dni !== "string") ||
-      (p.edad !== undefined &&
-        (!Number.isInteger(p.edad) ||
-          Number(p.edad) < 0 ||
-          Number(p.edad) > 120)) ||
+      (p.edad !== undefined && !esEdadParticipanteValida(p.edad)) ||
       (p.talle !== undefined && typeof p.talle !== "string")
     ) {
       throw new SolicitudApiError(
