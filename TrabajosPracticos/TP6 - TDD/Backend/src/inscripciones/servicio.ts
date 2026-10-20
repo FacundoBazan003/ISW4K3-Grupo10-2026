@@ -41,7 +41,7 @@ export function inscribirActividad(
   validarDisponibilidad(actividad);
 
   if (!solicitud.participantes || solicitud.participantes.length === 0) {
-    throw new Error("Debe ingresar al menos un participante");
+      throw new InscripcionRechazadaError("SIN_PARTICIPANTES");
   }
 
   validarDatosObligatoriosParticipantes(solicitud.participantes);
