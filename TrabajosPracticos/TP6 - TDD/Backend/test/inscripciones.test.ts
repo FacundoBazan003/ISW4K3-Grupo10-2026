@@ -531,8 +531,29 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("rechaza inscripciones a 15 minutos o menos del inicio", () => {
-    // Reserva dentro de la ventana de corte de 15 minutos previos al inicio
+  it("rechaza inscripciones a 15 minutos o menos del inicio", (t) => {
+    const ahora = new Date("2026-10-20T10:45:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "CIERRE_DE_INSCRIPCION",
+    );
   });
 
   it("rechaza turnos fuera del horario de actividades", () => {
