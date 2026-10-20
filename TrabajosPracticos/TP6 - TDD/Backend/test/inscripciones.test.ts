@@ -285,8 +285,28 @@ it("rechaza inscripciones cuando no hay cupos suficientes para todo el grupo", (
     );
   });
 
-  it("rechaza inscripciones si el talle de vestimenta no es válido", () => {
-    // Talle fuera de la lista: XS, S, M, L, XL, XXL (ej. 'XXXXL')
+    it("rechaza inscripciones si el talle de vestimenta no es válido", (t) => {
+    // Precondiciones: reloj fijo y Palestra con un talle fuera de la lista permitida
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Palestra",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        { nombre: "Ana Gómez", dni: "35987654", edad: 16, talla: "XXXL" },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "TALLE_INVALIDO",
+      "Debe rechazar un talle que no está entre los permitidos"
+    );
   });
 
   // =========================================================================
