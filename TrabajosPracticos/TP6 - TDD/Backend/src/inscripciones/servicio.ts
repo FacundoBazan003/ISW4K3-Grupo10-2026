@@ -16,13 +16,7 @@ export function inscribirActividad(solicitud: any): any {
     throw new Error("Debe ingresar al menos un participante");
   }
 
-  for (const p of solicitud.participantes) {
-    if (!p.dni) {
-      throw new InscripcionRechazadaError(
-        "PARTICIPANTE_INCOMPLETO"
-      );
-    }
-  }
+  validarDniParticipantes(solicitud.participantes);
 
   validarTerminos(solicitud.aceptaTerminos);
 
@@ -71,5 +65,15 @@ function validarTerminos(aceptaTerminos: boolean): void {
     throw new InscripcionRechazadaError(
       "TERMINOS_NO_ACEPTADOS"
     );
+  }
+}
+
+function validarDniParticipantes(participantes: Participante[]): void {
+  for (const participante of participantes) {
+    if (!participante.dni) {
+      throw new InscripcionRechazadaError(
+        "PARTICIPANTE_INCOMPLETO"
+      );
+    }
   }
 }
