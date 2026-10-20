@@ -29,7 +29,7 @@ export function inscribirActividad(
     throw new Error("Debe ingresar al menos un participante");
   }
 
-  validarDniParticipantes(solicitud.participantes);
+  validarDatosObligatoriosParticipantes(solicitud.participantes);
 
   validarTerminos(solicitud.aceptaTerminos);
 
@@ -96,7 +96,7 @@ function validarTerminos(aceptaTerminos: boolean): void {
   }
 }
 
-function validarDniParticipantes(participantes: Participante[]): void {
+function validarDatosObligatoriosParticipantes(participantes: Participante[]): void {
   for (const participante of participantes) {
     if (
       !participante.dni ||
