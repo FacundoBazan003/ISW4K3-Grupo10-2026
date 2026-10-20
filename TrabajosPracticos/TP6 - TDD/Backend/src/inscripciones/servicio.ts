@@ -34,14 +34,7 @@ export function inscribirActividad(
 
   // Validación de vestimenta si la actividad lo demanda
   if (actividad?.requiereVestimenta) {
-    for (const p of solicitud.participantes) {
-      if (!p.talla) {
-                throw new InscripcionRechazadaError("VESTIMENTA_REQUERIDA");
-      }
-      if (!TALLES_PERMITIDOS.includes(p.talla)) {
-        throw new Error("Talle no válido");
-      }
-    }
+    validarVestimenta(solicitud.participantes);
   }
   // Validación de edad mínima si la actividad la define
   if (actividad?.edadMinima !== undefined) {
@@ -114,5 +107,16 @@ function validarAnticipacion(horario: string): void {
     throw new InscripcionRechazadaError(
       "FUERA_DE_ANTICIPACION"
     );
+  }
+}
+
+function validarVestimenta(participantes: { talla?: string }[]): void {
+  for (const participante of participantes) {
+    if (!participante.talla) {
+      throw new InscripcionRechazadaError("VESTIMENTA_REQUERIDA");
+    }
+    if (!TALLES_PERMITIDOS.includes(participante.talla)) {
+      throw new Error("Talle no válido");
+    }
   }
 }
