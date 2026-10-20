@@ -98,7 +98,11 @@ function validarTerminos(aceptaTerminos: boolean): void {
 
 function validarDniParticipantes(participantes: Participante[]): void {
   for (const participante of participantes) {
-    if (!participante.dni) {
+    if (
+      !participante.dni ||
+      participante.edad === undefined ||
+      participante.edad === null
+    ) {
       throw new InscripcionRechazadaError(
         "PARTICIPANTE_INCOMPLETO"
       );
