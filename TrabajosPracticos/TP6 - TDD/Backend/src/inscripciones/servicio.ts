@@ -13,6 +13,15 @@ import {
 
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const ANTICIPACION_MAXIMA_MS = 24 * 60 * 60 * 1000;
+const DIAS_SEMANA: DiaSemana[] = [
+  "DOMINGO",
+  "LUNES",
+  "MARTES",
+  "MIERCOLES",
+  "JUEVES",
+  "VIERNES",
+  "SABADO",
+];
 
 interface ContextoInscripcion {
   actividades?: Actividad[];
@@ -184,18 +193,8 @@ function validarCupos(
 function validarCierreSemanal(horario: string): void {
   const reglasCierre = crearReglasCierreParqueMock();
 
-  const diasSemana: DiaSemana[] = [
-    "DOMINGO",
-    "LUNES",
-    "MARTES",
-    "MIERCOLES",
-    "JUEVES",
-    "VIERNES",
-    "SABADO",
-  ];
-
   const fechaTurno = new Date(horario);
-  const diaTurno = diasSemana[fechaTurno.getDay()];
+  const diaTurno = DIAS_SEMANA[fechaTurno.getDay()];
 
   if (reglasCierre.diasCerrados.includes(diaTurno)) {
     throw new InscripcionRechazadaError("PARQUE_CERRADO");
