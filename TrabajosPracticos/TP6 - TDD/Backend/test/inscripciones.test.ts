@@ -126,6 +126,32 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
+  it("rechaza participantes incompletos sin edad", (t) => {
+    // Arrange: solicitud válida, excepto por la edad omitida.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act y Assert
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "PARTICIPANTE_INCOMPLETO"
+    );
+  });
+
   it("rechaza inscripciones a actividades no disponibles", () => {
     // Precondiciones: Safari existe en el catálogo, pero no está disponible
     const actividades = crearActividadesMock().map((actividad) =>
