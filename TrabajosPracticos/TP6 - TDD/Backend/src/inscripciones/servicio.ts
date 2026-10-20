@@ -48,6 +48,23 @@ export function inscribirActividad(
   const inscripciones = contexto.inscripciones ?? [];
 
   if (actividad) {
+    const cuposOcupados = inscripciones
+      .filter(
+        (inscripcion) =>
+          inscripcion.actividadId === actividad.id &&
+          inscripcion.fechaHora === solicitud.horario
+      )
+      .reduce(
+        (total, inscripcion) => total + inscripcion.participantes.length,
+        0
+      );
+
+    const cuposDisponibles = actividad.cuposPorTurno - cuposOcupados;
+
+    if (solicitud.participantes.length > cuposDisponibles) {
+      throw new InscripcionRechazadaError("SIN_CUPOS");
+    }
+
     registrarInscripcion(solicitud, actividad, inscripciones);
   }
 
