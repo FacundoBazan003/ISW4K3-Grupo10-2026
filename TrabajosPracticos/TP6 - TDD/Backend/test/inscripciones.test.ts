@@ -84,8 +84,45 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Límite superior de anticipación permitida
   });
 
-  it("permite reservar actividades en distintos turnos", () => {
-    // Mismo participante en turnos separados (ej. 10:00 y 14:00)
+  it("permite reservar actividades en distintos turnos", (t) => {
+    // Precondiciones: reloj fijo y Juan Pérez ya inscripto en Safari a las 10:00
+    const ahora = new Date("2026-10-20T09:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const participante = { nombre: "Juan Pérez", dni: "12345678", edad: 25 };
+
+    const inscripciones: Inscripcion[] = [
+      {
+        id: 1,
+        usuarioId: "visitante-mock",
+        actividadId: "safari",
+        fechaHora: "2026-10-20T10:00:00-03:00",
+        participantes: [participante],
+      },
+    ];
+
+    const contexto = {
+      actividades: crearActividadesMock(),
+      inscripciones,
+    };
+
+    const solicitud = {
+      actividad: "Jardinería",
+      horario: "2026-10-20T14:00:00-03:00",
+      participantes: [participante],
+      aceptaTerminos: true,
+    };
+
+    // Pasos
+    const resultado = inscribirActividad(solicitud, contexto);
+
+    // Resultado
+    assert.strictEqual(
+      resultado.exito,
+      true,
+      "Debe aceptar al mismo participante en un turno distinto"
+    );
+    assert.strictEqual(inscripciones.length, 2);
   });
 
   it("descuenta los cupos disponibles tras una inscripción exitosa", (t) => {
