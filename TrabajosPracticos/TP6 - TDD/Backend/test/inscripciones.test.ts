@@ -134,8 +134,26 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     );
   });
 
-  it("rechaza inscripciones sin participantes", () => {
-    // Lista de participantes vacía []
+  it("rechaza inscripciones sin participantes", (t) => {
+    // Precondiciones: reloj fijo y una solicitud con la lista de participantes vacía
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [],
+      aceptaTerminos: true,
+    };
+
+    // Pasos y Resultado
+    assert.throws(
+      () => inscribirActividad(solicitud),
+      (error: unknown) =>
+        error instanceof InscripcionRechazadaError &&
+        error.motivo === "SIN_PARTICIPANTES",
+      "Debe rechazar una inscripción sin participantes"
+    );
   });
 
   it("rechaza participantes incompletos", (t) => {
