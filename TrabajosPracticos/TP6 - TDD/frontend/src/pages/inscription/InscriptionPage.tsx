@@ -16,7 +16,7 @@ import {
 import type { ActivityId, Reservation } from "@/types/activity";
 
 import ActivitySelector from "@/components/inscription/ActivitySelector";
-import CallyCalendar from "@/components/inscription/CallyCalendar";
+import ActivityDatePicker from "@/components/inscription/ActivityDatePicker";
 import ScheduleSelector from "@/components/inscription/ScheduleSelector";
 import ParticipantForm from "@/components/inscription/ParticipantForm";
 import TermsModal from "@/components/inscription/TermsModal";
@@ -183,7 +183,7 @@ export default function InscriptionPage() {
                     <div className="card bg-base-100 border border-base-300 p-5 sm:p-6 rounded-3xl shadow-sm space-y-6">
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                             <div className="lg:col-span-5">
-                                <CallyCalendar
+                                <ActivityDatePicker
                                     value={selectedFecha}
                                     onChange={(newDate) => {
                                         setValue("fecha", newDate, { shouldValidate: true });
