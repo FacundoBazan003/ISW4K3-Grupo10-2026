@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
+import { esEdadParticipanteValida } from "../src/api/reglas";
 
 import {
   InscripcionRechazadaError,
@@ -66,8 +67,30 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
-  it("permite reservar exactamente 24 horas antes del turno", () => {
-    // Límite superior de anticipación permitida
+  it("permite reservar exactamente 24 horas antes del turno", (t) => {
+    // Arrange: el turno empieza exactamente 24 horas después.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-21T10:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud);
+
+    // Assert: el límite de 24 horas está incluido.
+    assert.strictEqual(resultado.exito, true);
+    assert.ok(resultado.codigoQR, "Debe generar un código QR");
   });
 
   it("permite reservar actividades en distintos turnos", (t) => {
@@ -153,8 +176,34 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     assert.strictEqual(8 - ocupados, 6);
   });
 
-  it("retorna el código QR correspondiente al completar la inscripción", () => {
-    // Verificar que el resultado de la inscripción contenga el QR de acceso
+  it("retorna el código QR correspondiente al completar la inscripción", (t) => {
+    // Arrange
+    const ahora = new Date("2026-10-20T09:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T10:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud);
+
+    // Assert
+    assert.strictEqual(resultado.exito, true);
+    assert.strictEqual(typeof resultado.codigoQR, "string");
+    assert.ok(
+      resultado.codigoQR.trim().length > 0,
+      "Debe retornar un código QR no vacío",
+    );
   });
 
   // =========================================================================
@@ -247,6 +296,18 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
         error instanceof InscripcionRechazadaError &&
         error.motivo === "PARTICIPANTE_INCOMPLETO",
     );
+  });
+
+  it("rechaza una edad omitida", () => {
+    assert.strictEqual(esEdadParticipanteValida(undefined), false);
+  });
+
+  it("rechaza una edad decimal", () => {
+    assert.strictEqual(esEdadParticipanteValida(25.5), false);
+  });
+
+  it("rechaza una edad mayor a 120", () => {
+    assert.strictEqual(esEdadParticipanteValida(121), false);
   });
 
   it("rechaza participantes sin nombre", (t) => {
