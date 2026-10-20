@@ -2,7 +2,7 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { inscribirActividad } from "../src/inscripciones/servicio";
 
-import { InscripcionRechazadaError } from "../src/inscripciones/modelos";
+import { InscripcionRechazadaError ,type Inscripcion, } from "../src/inscripciones/modelos";
 import { crearActividadesMock } from "../src/inscripciones/datos-mocks";
 
 
@@ -70,8 +70,46 @@ describe("Pruebas para la lógica de inscripción a actividades del parque", () 
     // Mismo participante en turnos separados (ej. 10:00 y 14:00)
   });
 
-  it("descuenta los cupos disponibles tras una inscripción exitosa", () => {
-    // Inscribir N participantes y verificar que los cupos del turno disminuyan en N
+  it("descuenta los cupos disponibles tras una inscripción exitosa", (t) => {
+    // Arrange: Safari comienza con sus 8 lugares libres.
+    const ahora = new Date("2026-10-20T10:00:00-03:00");
+    t.mock.method(Date, "now", () => ahora.getTime());
+
+    const inscripciones: Inscripcion[] = [];
+    const contexto = {
+      actividades: crearActividadesMock(),
+      inscripciones,
+    };
+
+    const solicitud = {
+      actividad: "Safari",
+      horario: "2026-10-20T11:00:00-03:00",
+      participantes: [
+        {
+          nombre: "Juan Pérez",
+          dni: "12345678",
+          edad: 25,
+        },
+        {
+          nombre: "Ana Gómez",
+          dni: "40123456",
+          edad: 30,
+        },
+      ],
+      aceptaTerminos: true,
+    };
+
+    // Act
+    const resultado = inscribirActividad(solicitud, contexto);
+
+    // Assert
+    const ocupados = inscripciones.reduce(
+      (total, inscripcion) => total + inscripcion.participantes.length,
+      0
+    );
+
+    assert.strictEqual(resultado.exito, true);
+    assert.strictEqual(8 - ocupados, 6);
   });
 
   it("retorna el código QR correspondiente al completar la inscripción", () => {
