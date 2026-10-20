@@ -116,6 +116,7 @@ function validarParticipantesInformados(participantes?: Participante[]): void {
 function validarDatosObligatoriosParticipantes(participantes: Participante[]): void {
   for (const participante of participantes) {
     if (
+      !participante.nombre ||
       !participante.dni ||
       participante.edad === undefined ||
       participante.edad === null
