@@ -186,7 +186,7 @@ function validarCupos(
     .filter(
       (inscripcion) =>
         inscripcion.actividadId === actividad.id &&
-        inscripcion.fechaHora === solicitud.horario
+        esMismoTurno(inscripcion, solicitud.horario)
     )
     .reduce(
       (total, inscripcion) => total + inscripcion.participantes.length,
@@ -207,7 +207,7 @@ function validarInscripcionesSuperpuestas(
   for (const participante of solicitud.participantes) {
     const tieneOtraInscripcion = inscripciones.some(
       (inscripcion) =>
-        inscripcion.fechaHora === solicitud.horario &&
+        esMismoTurno(inscripcion, solicitud.horario) &&
         estaInscripto(participante, inscripcion)
     );
 
@@ -215,6 +215,10 @@ function validarInscripcionesSuperpuestas(
       throw new InscripcionRechazadaError("INSCRIPCION_SUPERPUESTA");
     }
   }
+}
+
+function esMismoTurno(inscripcion: Inscripcion, horario: string): boolean {
+  return inscripcion.fechaHora === horario;
 }
 
 function estaInscripto(
