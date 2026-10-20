@@ -158,7 +158,10 @@ export function crearApp(contexto: ContextoApi = {}) {
     validarFecha(fecha);
     const horario = body.horario;
     validarTurnoApi(fecha, horario);
-    const participantes = leerParticipantes(body.participantes);
+    const participantes = leerParticipantes(body.participantes).map((p) => ({
+      ...p,
+      talle: actividad.requiereVestimenta ? p.talle : undefined,
+    }));
     const fechaHora = fechaHoraDelParque(fecha, horario);
 
     const reserva = almacen.transaccion((inscripciones) => {

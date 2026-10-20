@@ -46,7 +46,7 @@ La fecha y la hora del turno corresponden a Argentina (UTC-3). Una respuesta exi
 ## Qué se conserva
 
 - El dominio y sus 28 tests conservan la versión de `main` incorporada en `c5dc482`, incluido el test original que rechaza a 15 minutos o menos. Se incorporaron horarios de actividades, su test de límites, feriados y turnos en punto. Dos tests siguen siendo plantillas vacías: exactamente 24 horas y código QR.
-- El frontend incorpora los cambios de su rama remota hasta `ffa77b4`: términos de las cuatro actividades, calendario `react-day-picker` e iconos Phosphor. Se mantienen las adaptaciones a la API para catálogo, calendario, disponibilidad y confirmación. La ampliación de términos no agrega validaciones automáticas de peso, salud u otras condiciones mencionadas en ellos.
+- El frontend incorpora los cambios de su rama remota hasta `5298100`: calendario, iconos, rutas con sesión simulada, carga de horarios de dos segundos y agregado de visitantes condicionado a un turno disponible. Se mantienen las adaptaciones a la API para catálogo, calendario, disponibilidad y confirmación. La ampliación de términos no agrega validaciones automáticas de peso, salud u otras condiciones mencionadas en ellos.
 - La sesión continúa simulada. Se conservan el diseño, los textos y la simulación de correo/comprobante del frontend.
 - En ejecución normal las reservas se guardan en `Backend/data/ecoharmony.db`, con las tablas `inscripciones` y `participantes`. Se conservan al reiniciar el backend. El archivo es local y está excluido de Git.
 - Los tests originales conservan la lista en memoria. La capa de persistencia carga las inscripciones para ejecutar la misma función del dominio y guarda las nuevas dentro de una transacción SQLite. La lectura de cupos, la validación y la escritura se realizan bajo el mismo bloqueo para evitar sobreventa.
@@ -109,7 +109,7 @@ Lint conserva una advertencia previa de React Hook Form por `watch()`; no impide
 
 ## Prueba manual repetible
 
-1. Levantar ambos servidores y elegir Safari, un día abierto y un turno habilitado (más de 15 minutos y hasta 24 horas de anticipación).
+1. Levantar ambos servidores, iniciar sesión con un usuario de prueba y elegir Safari, un día abierto y un turno habilitado (más de 15 minutos y hasta 24 horas de anticipación). La consulta de horarios conserva una espera simulada de dos segundos.
 2. Ingresar nombre de al menos 2 caracteres, DNI de prueba de 8 dígitos y edad válida. Sin aceptar términos, confirmar: se debe mostrar el error y no generar la reserva.
 3. Aceptar los términos y confirmar: debe aparecer el número de orden y el código devuelto por el backend; debe disminuir el cupo disponible en uno.
 4. Abrir otra pestaña para el mismo turno: debe mostrar el cupo ya reducido aunque esa pestaña no haya creado la reserva.

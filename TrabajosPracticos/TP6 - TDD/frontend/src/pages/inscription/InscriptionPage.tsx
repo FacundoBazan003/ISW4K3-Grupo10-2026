@@ -3,7 +3,6 @@ import { useSearchParams, Link } from "react-router";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "@/store/authStore";
-import { userMock } from "@/mocks/users.mocks";
 import { useActivities, useSlotsAvailability, useCreateReservation } from "@/hooks/useActivities";
 import { inscriptionSchema, type InscriptionFormData } from "@/schemas/inscriptionSchema";
 import type { ActivityId, Reservation } from "@/types/activity";
@@ -20,8 +19,7 @@ export default function InscriptionPage() {
     const queryActivity = searchParams.get("activity") as ActivityId | null;
 
     const { user } = useAuthStore();
-    // Si no hay usuario logueado en store, usar el mock predeterminado (FAQ 19)
-    const activeUser = user ?? userMock[0];
+    const activeUser = user ?? { name: "Visitante", email: "", id: "" };
 
     const {
         data: activities = [],
@@ -217,6 +215,7 @@ export default function InscriptionPage() {
                             requiereTalle={selectedActivity?.requiereTalle ?? false}
                             edadMinima={selectedActivity?.edadMinima ?? null}
                             cuposDisponibles={selectedSlotInfo?.cuposDisponibles}
+                            hasSelectedHorario={Boolean(selectedHorario && selectedSlotInfo?.disponible)}
                         />
                         {errors.participantes?.root && (
                             <p className="text-error mt-2 text-xs font-medium">

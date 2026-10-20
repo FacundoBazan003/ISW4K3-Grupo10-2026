@@ -1,5 +1,11 @@
 import { useFieldArray, useFormContext, type FieldArrayWithId } from "react-hook-form";
-import { PlusIcon, TrashIcon, WarningCircleIcon, UserIcon } from "@phosphor-icons/react";
+import {
+    PlusIcon,
+    TrashIcon,
+    WarningCircleIcon,
+    UserIcon,
+    InfoIcon,
+} from "@phosphor-icons/react";
 import { TALLES_DISPONIBLES } from "@/types/activity";
 import type { InscriptionFormData } from "@/schemas/inscriptionSchema";
 
@@ -7,12 +13,14 @@ interface ParticipantFormProps {
     requiereTalle: boolean;
     edadMinima: number | null;
     cuposDisponibles?: number;
+    hasSelectedHorario: boolean;
 }
 
 export default function ParticipantForm({
     requiereTalle,
     edadMinima,
     cuposDisponibles,
+    hasSelectedHorario,
 }: ParticipantFormProps) {
     const {
         control,
@@ -25,7 +33,11 @@ export default function ParticipantForm({
         name: "participantes",
     });
 
-    const canAddMore = cuposDisponibles === undefined || fields.length < cuposDisponibles;
+    const canAddMore =
+        hasSelectedHorario &&
+        cuposDisponibles !== undefined &&
+        cuposDisponibles > 0 &&
+        fields.length < cuposDisponibles;
 
     const handleAdd = () => {
         if (!canAddMore) return;
@@ -53,19 +65,51 @@ export default function ParticipantForm({
                     type="button"
                     onClick={handleAdd}
                     disabled={!canAddMore}
-                    className="btn btn-secondary btn-sm gap-1.5 self-start rounded-full text-xs font-bold sm:self-auto"
+                    title={
+                        !hasSelectedHorario
+                            ? "Seleccioná un horario disponible en el Paso 2 para habilitar cupos"
+                            : fields.length >= (cuposDisponibles ?? 0)
+                              ? `Alcanzaste el límite de cupos disponibles (${cuposDisponibles}) para este turno`
+                              : undefined
+                    }
+                    className="btn btn-secondary btn-sm gap-1.5 self-start rounded-full text-xs font-bold sm:self-auto disabled:opacity-50"
                 >
                     <PlusIcon size={14} weight="bold" />
                     <span>Agregar Visitante</span>
                 </button>
             </div>
 
-            {cuposDisponibles !== undefined && fields.length >= cuposDisponibles && (
+            {/* Aviso cuando aún no se eligió horario */}
+            {!hasSelectedHorario && (
+                <div className="bg-base-200/80 border-base-300 text-base-content/75 flex items-center gap-2.5 rounded-xl border p-3 text-xs">
+                    <InfoIcon size={18} weight="bold" className="text-primary shrink-0" />
+                    <span>
+                        Seleccioná un horario disponible en el{" "}
+                        <strong className="text-base-content font-bold">Paso 2</strong> para
+                        conocer los cupos libres y habilitar la carga de más visitantes.
+                    </span>
+                </div>
+            )}
+
+            {/* Aviso cuando se alcanzaron los cupos del turno */}
+            {hasSelectedHorario && cuposDisponibles !== undefined && fields.length === cuposDisponibles && (
                 <div className="bg-warning/15 border-warning/30 text-warning-content flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
                     <WarningCircleIcon size={18} weight="bold" className="text-warning shrink-0" />
                     <span className="text-warning">
                         Alcanzaste el límite de cupos disponibles ({cuposDisponibles}) para este
                         turno.
+                    </span>
+                </div>
+            )}
+
+            {/* Alerta de exceso de cupos si el turno elegido tiene menos lugares que los visitantes ya cargados */}
+            {hasSelectedHorario && cuposDisponibles !== undefined && fields.length > cuposDisponibles && (
+                <div className="bg-error/15 border-error/30 text-error flex items-center gap-2 rounded-xl border p-3 text-xs font-medium">
+                    <WarningCircleIcon size={18} weight="bold" className="shrink-0" />
+                    <span>
+                        Tenés {fields.length} visitantes cargados pero este horario solo dispone de{" "}
+                        {cuposDisponibles} cupos libres. Por favor quitá{" "}
+                        {fields.length - cuposDisponibles} visitante(s) para continuar.
                     </span>
                 </div>
             )}

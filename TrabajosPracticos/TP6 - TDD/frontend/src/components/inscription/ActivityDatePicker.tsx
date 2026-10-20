@@ -1,10 +1,7 @@
 import { DayPicker } from "react-day-picker";
 import { es } from "date-fns/locale";
 import { format, parseISO, startOfToday, addDays } from "date-fns";
-import {
-    ArrowCounterClockwiseIcon,
-    CalendarBlankIcon,
-} from "@phosphor-icons/react";
+import { ArrowCounterClockwiseIcon, CalendarBlankIcon } from "@phosphor-icons/react";
 import "react-day-picker/style.css";
 import { isParkOpenOnDate } from "@/services/activityService";
 import { useParkRules } from "@/hooks/useActivities";
@@ -35,10 +32,11 @@ export default function ActivityDatePicker({
 
     const selectedDate = value ? parseISO(value) : today;
 
-    // Formatear la fecha seleccionada en español natural (ej: "Sábado 24 de octubre, 2026")
-    const formattedHumanDate = format(selectedDate, "EEEE d 'de' MMMM, yyyy", {
+    // Formatear la fecha seleccionada en español natural con la primera letra en mayúscula (ej: "Sábado 24 de octubre, 2026")
+    const rawDate = format(selectedDate, "EEEE d 'de' MMMM, yyyy", {
         locale: es,
     });
+    const formattedHumanDate = rawDate.charAt(0).toUpperCase() + rawDate.slice(1);
 
     // Regla de deshabilitación: días cerrados (lunes, 25/12, 01/01) o fuera de rango
     const isDateDisabled = (date: Date): boolean => {
@@ -154,7 +152,7 @@ export default function ActivityDatePicker({
                 {/* Confirmación de fecha en lenguaje humano debajo del calendario */}
                 <div className="bg-base-200/70 border-base-300/60 mt-3 flex w-full items-center justify-between rounded-xl border px-3.5 py-2 text-xs">
                     <span className="text-base-content/70">Fecha elegida:</span>
-                    <span className="text-primary flex items-center gap-1.5 font-bold capitalize">
+                    <span className="text-primary flex items-center gap-1.5 font-bold">
                         <CalendarBlankIcon size={16} weight="duotone" />
                         <span>{formattedHumanDate}</span>
                     </span>
