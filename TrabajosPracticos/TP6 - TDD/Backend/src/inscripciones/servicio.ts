@@ -1,3 +1,5 @@
+import { InscripcionRechazadaError } from "./modelos";
+
 const ACTIVIDADES_CON_VESTIMENTA = ["Palestra", "Tirolesa"];
 const TALLES_PERMITIDOS = ["XS", "S", "M", "L", "XL", "XXL"];
 
@@ -18,6 +20,16 @@ export function inscribirActividad(solicitud: any): any {
       }
       if (!TALLES_PERMITIDOS.includes(p.talla)) {
         throw new Error("Talle no válido");
+      }
+    }
+  }
+    // Validación de edad mínima de Palestra.
+  if (solicitud.actividad === "Palestra") {
+    for (const p of solicitud.participantes) {
+      if (p.edad < 12) {
+        throw new InscripcionRechazadaError(
+          "EDAD_MINIMA_NO_CUMPLIDA"
+        );
       }
     }
   }
