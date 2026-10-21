@@ -42,16 +42,49 @@ EcoHarmony Park es un sistema que permite a los usuarios:
 TP6 - TDD/
 ├── Backend/
 │   ├── src/
-│   │   └── inscripciones/
-│   │       ├── datos-mocks.ts
-│   │       ├── modelos.ts
-│   │       └── servicio.ts
+│   │   ├── api/
+│   │   │   ├── app.ts
+│   │   │   └── reglas.ts
+│   │   ├── inscripciones/
+│   │   │   ├── datos-mocks.ts
+│   │   │   ├── modelos.ts
+│   │   │   └── servicio.ts
+│   │   ├── persistencia/
+│   │   │   ├── almacen.ts
+│   │   │   └── sqlite.ts
+│   │   ├── index.ts
+│   │   └── ver-bd.ts
 │   ├── test/
 │   │   └── inscripciones.test.ts
 │   ├── package.json
 │   ├── package-lock.json
 │   └── tsconfig.json
 ├── Frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── assets/img/
+│   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   └── inscription/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── mocks/
+│   │   ├── pages/
+│   │   │   ├── auth/
+│   │   │   └── inscription/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   ├── store/
+│   │   ├── types/
+│   │   ├── index.css
+│   │   └── main.tsx
+│   ├── index.html
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   ├── pnpm-workspace.yaml
+│   ├── tsconfig*.json
+│   └── vite.config.ts
 └── .gitignore
 ```
 
@@ -122,10 +155,10 @@ TP6 - TDD/
 
 - ✅ Permitir inscripciones a actividades que no requieren vestimenta.
 - ✅ Permitir inscripciones con un talle de vestimenta permitido.
+- ✅ Permitir reservar exactamente 24 horas antes del turno.
 - ✅ Permitir que una persona se inscriba en distintos turnos.
 - ✅ Descontar los cupos disponibles después de una inscripción exitosa.
-- ⚠️ Reservar exactamente 24 horas antes del turno (caso declarado, pero sin lógica de prueba).
-- ⚠️ Retornar el código QR al completar la inscripción (caso declarado, pero sin lógica de prueba).
+- ✅ Retornar un código QR no vacío al completar la inscripción.
 
 #### Tests de Entrada y Participantes
 
@@ -165,6 +198,10 @@ TP6 - TDD/
 
 ## 🛠️ Tecnologías
 
-- **Backend:** Node.js, TypeScript.
-- **Frontend:** HTML5, CSS
-```
+- **Backend:** Node.js, TypeScript, Express 5 y SQLite (`node:sqlite`).
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS 4 y daisyUI.
+- **Enrutamiento y estado:** React Router, Zustand y TanStack Query.
+- **Formularios y validación:** React Hook Form y Zod.
+- **Fechas e iconografía:** date-fns, React Day Picker, Cally y Phosphor Icons.
+- **Pruebas y calidad:** Node.js Test Runner, tsx, ESLint y Prettier.
+- **Gestión de paquetes:** npm para el backend y pnpm para el frontend.
