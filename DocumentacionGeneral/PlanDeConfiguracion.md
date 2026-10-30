@@ -8,7 +8,7 @@ Este documento establece los criterios utilizados para identificar, nombrar, ubi
 
 Se considera **Ítem de Configuración (IC)** a todo elemento del repositorio que debe ser identificado, almacenado y controlado durante el cursado.
 
-De acuerdo con la clasificación utilizada por la cátedra, los IC pueden corresponder al **Producto**, al **Proyecto** o a una **Iteración**. En este repositorio, cada Trabajo Práctico se considera una iteración de trabajo: su enunciado y su documentación organizativa pertenecen a la Iteración, mientras que los resultados elaborados por el grupo pertenecen al Producto. Los documentos y materiales que sirven de soporte durante todo el cursado pertenecen al Proyecto.
+De acuerdo con la clasificación utilizada por la cátedra, los IC pueden corresponder al **Producto**, al **Proyecto** o a una **Iteración**. En este repositorio, cada Trabajo Práctico (TP) y cada Trabajo de Investigación Grupal (TIG) se considera una iteración de trabajo: su enunciado y su documentación organizativa pertenecen a la Iteración, mientras que los resultados elaborados por el grupo pertenecen al Producto. Los documentos y materiales que sirven de soporte durante todo el cursado pertenecen al Proyecto.
 
 | Sigla | Ítem de Configuración | Tipo | Ubicación |
 | --- | --- | --- | --- |
@@ -16,13 +16,15 @@ De acuerdo con la clasificación utilizada por la cátedra, los IC pueden corres
 | DOC | Plan de Configuración | Proyecto | `/DocumentacionGeneral` |
 | DOC | Estructura del Repositorio | Proyecto | `/DocumentacionGeneral` |
 | DOC | Glosario | Proyecto | `/DocumentacionGeneral` |
-| CFG | Configuración técnica de Git y del repositorio (`.gitignore`, `.gitattributes` y equivalentes) | Proyecto | `/` o carpeta del TP cuando la configuración sea específica |
+| CFG | Configuración técnica de Git y del repositorio (`.gitignore`, `.gitattributes` y equivalentes) | Proyecto | `/` o carpeta del trabajo o componente cuando la configuración sea específica |
 | RDJ | Reglas de Juego provistas por la cátedra | Proyecto | `/ReglasDeJuego` |
 | MB | Material Bibliográfico | Proyecto | `/Teorico/Bibliografia/<Tematica>` |
 | PC | Presentación de Clase | Proyecto | `/Teorico/Presentaciones` |
 | TP | Enunciado del Trabajo Práctico | Iteración | `/TrabajosPracticos/TP<x> - <NombreTP>` |
-| TP | `README.md` y `links.md` del Trabajo Práctico | Iteración | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| TP | `README.md`, `links.md` y documentación auxiliar del Trabajo Práctico | Iteración | `/TrabajosPracticos/TP<x> - <NombreTP>` o subcarpeta del componente |
 | TP | Informe, código, anexos y demás entregables elaborados por el grupo | Producto | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| TIG | Enunciado y documentación organizativa (`README.md`, `links.md` y documentación auxiliar) del Trabajo de Investigación Grupal | Iteración | `/TrabajosPracticos/TIG<x>` |
+| TIG | Informe, presentación y demás entregables del Trabajo de Investigación Grupal elaborados por el grupo | Producto | `/TrabajosPracticos/TIG<x>` |
 | R | Resumen elaborado individualmente por cada alumno como material de apoyo | Proyecto | `/Resumenes/<ApellidoNombre>` |
 
 La tabla identifica clases de IC y no cada instancia concreta incorporada al repositorio. Por eso no necesita actualizarse cada vez que se agrega un nuevo archivo de una clase ya definida. Las carpetas solo establecen la ubicación de los IC y no se consideran IC. Los marcadores `.gitkeep` preservan carpetas vacías en Git y tampoco se consideran IC.
@@ -100,6 +102,27 @@ Ejemplos:
 * `TP4_HerramientasSCM_Informe.pdf`
 * `TP5_UsoDelRepositorio_Enunciado.pdf`
 
+Esta convención se aplica a los enunciados y a los entregables documentales o empaquetados. Los archivos fuente, pruebas, recursos y configuraciones de proyectos con código conservan sus nombres técnicos y su organización interna, como `package.json`, `src/index.ts` o `test/inscripciones.test.ts`. No requieren el prefijo `TP` en cada archivo.
+
+### Trabajos de Investigación Grupal
+
+```
+TIG<x>_<Tema>_<Descripcion>.<ext>
+```
+
+Donde:
+
+* `TIG` identifica un Trabajo de Investigación Grupal y `<x>` su número.
+* `<Tema>` identifica el tema investigado.
+* `<Descripcion>` identifica el escenario o el tipo de documento, por ejemplo `Enunciado`, `Informe`, `Presentacion` o `Anexo`.
+* `<ext>` es la extensión del archivo.
+
+Ejemplo existente:
+
+* `TIG1_DespliegueDeSoftware_EventoGlobalVideojuegoOnline.pdf`: presentación elaborada por el grupo sobre el escenario de un evento global en un videojuego online.
+
+Cuando se incorporen varios documentos del mismo escenario, se agrega el tipo para distinguirlos: `TIG<x>_<Tema>_<Escenario>_<Tipo>.<ext>`. Los nombres se escriben en PascalCase, sin espacios ni acentos, y los archivos se almacenan en `/TrabajosPracticos/TIG<x>`.
+
 ### Resúmenes
 
 ```
@@ -119,13 +142,15 @@ El objetivo de la regla es que el nombre permita identificar el tipo y el conten
 
 Los archivos DOC y CFG conservan sus nombres descriptivos o técnicos (`README.md`, `EstructuraRepositorio.md`, `.gitignore`, etc.) porque son nombres convencionales y su ubicación permite identificarlos de manera unívoca.
 
-### Documentación propia de los Trabajos Prácticos
+### Documentación propia de los trabajos
 
-Cada carpeta de Trabajo Práctico contiene un archivo `README.md`. Su finalidad es identificar y describir el TP, detallar el contenido de la carpeta e indicar el estado de la entrega o cualquier instrucción necesaria para utilizar sus archivos.
+Cada carpeta de TP o TIG contiene un archivo `README.md`. Su finalidad es identificar y describir el trabajo, detallar el contenido de la carpeta e indicar el estado de la entrega o cualquier instrucción necesaria para utilizar sus archivos.
 
-Cuando un Trabajo Práctico requiera referencias, también puede incluir un archivo `links.md`. Este archivo contiene enlaces internos o externos, una breve descripción de cada recurso y su relación con el TP. Su finalidad es centralizar las referencias necesarias para consultar documentación almacenada dentro o fuera del repositorio.
+Cuando un trabajo requiera referencias, también puede incluir un archivo `links.md`. Este archivo contiene enlaces internos o externos, una breve descripción de cada recurso y su relación con el trabajo. Su finalidad es centralizar las referencias necesarias para consultar documentación almacenada dentro o fuera del repositorio.
 
-Tanto `README.md` como `links.md` se consideran IC asociados a la Iteración y se ubican dentro de la carpeta del Trabajo Práctico correspondiente. `README.md` se incluye en todos los TP; `links.md` solo se crea cuando existen referencias que registrar. Los archivos `links.md` existentes se conservan mientras contengan referencias útiles.
+Tanto `README.md` como `links.md` se consideran IC asociados a la Iteración y se ubican dentro de la carpeta del trabajo correspondiente. `README.md` se incluye en todos los TP y TIG; `links.md` solo se crea cuando existen referencias que registrar. Los archivos `links.md` existentes se conservan mientras contengan referencias útiles.
+
+La documentación auxiliar conserva un nombre descriptivo, como `INTEGRACION.md`, y se considera parte de la documentación de la Iteración. Puede ubicarse en la carpeta del trabajo o del componente al que se refiera y debe estar referenciada desde el `README.md` del trabajo. Los archivos de configuración de cada componente conservan sus nombres técnicos convencionales.
 
 ---
 
@@ -136,11 +161,13 @@ La ubicación forma parte de la identificación del IC. Cada archivo debe almace
 | Ítem de Configuración | Regla de nombrado | Ubicación |
 | --- | --- | --- |
 | Documentación del Repositorio | Nombre descriptivo | `/` o `/DocumentacionGeneral` |
-| Configuración Técnica | Nombre técnico convencional | `/` o carpeta del TP cuando corresponda |
+| Configuración Técnica | Nombre técnico convencional | `/` o carpeta del trabajo o componente cuando corresponda |
 | Reglas de Juego | `RDJ_<NombreDocumento>.<ext>` | `/ReglasDeJuego` |
 | Material Bibliográfico | `MB_<NombreMaterial>_<Autor>.<ext>` | `/Teorico/Bibliografia/<Tematica>` |
 | Presentación de Clase | `PC_<n>_<NombrePresentacion>.<ext>` | `/Teorico/Presentaciones` |
-| Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>`, `README.md` o `links.md` | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| Trabajo Práctico | `TP<x>_<NombreTP>_<Tipo>.<ext>`, `README.md`, `links.md` o nombre descriptivo para documentación auxiliar | `/TrabajosPracticos/TP<x> - <NombreTP>` |
+| Código, pruebas y recursos de un trabajo | Nombre técnico propio del proyecto | Subcarpetas del trabajo o componente correspondiente |
+| Trabajo de Investigación Grupal | `TIG<x>_<Tema>_<Descripcion>.<ext>` (con tipo adicional cuando corresponda), `README.md`, `links.md` o documentación auxiliar | `/TrabajosPracticos/TIG<x>` |
 | Resumen | `R_<Tema>.<ext>` | `/Resumenes/<ApellidoNombre>` |
 
 Cada temática de bibliografía se incorpora en una subcarpeta propia, aplicando el patrón genérico `<Tematica>` definido en la estructura del repositorio.

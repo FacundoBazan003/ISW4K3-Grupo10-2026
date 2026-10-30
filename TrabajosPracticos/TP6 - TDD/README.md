@@ -2,6 +2,8 @@
 
 Sistema web para la inscripción de actividades en el parque EcoHarmony, desarrollado con TDD (Test-Driven Development).
 
+El trabajo contiene el código del backend y del frontend, las pruebas del dominio y la integración con persistencia en SQLite. Las instrucciones de instalación, ejecución y verificación se encuentran en [INTEGRACION.md](INTEGRACION.md).
+
 ## 📑 Índice
 
 - [Descripción](#-descripción)
@@ -59,7 +61,7 @@ TP6 - TDD/
 │   ├── package.json
 │   ├── package-lock.json
 │   └── tsconfig.json
-├── Frontend/
+├── frontend/
 │   ├── public/
 │   ├── src/
 │   │   ├── app/
@@ -85,6 +87,9 @@ TP6 - TDD/
 │   ├── pnpm-workspace.yaml
 │   ├── tsconfig*.json
 │   └── vite.config.ts
+├── INTEGRACION.md
+├── README.md
+├── TP6_TDD_Enunciado.pdf
 └── .gitignore
 ```
 

@@ -1,6 +1,6 @@
 # Prueba de integración de frontend y backend
 
-Esta rama conecta el formulario de `frontend` con la lógica de inscripción de `Backend` mediante una API Express y guarda las inscripciones en SQLite. Se conservan los avances del dominio y su regla de rechazar reservas a 15 minutos o menos del inicio; la disponibilidad que muestra el frontend utiliza el mismo criterio.
+La integración conecta el formulario de `frontend` con la lógica de inscripción de `Backend` mediante una API Express y guarda las inscripciones en SQLite. Se conservan los avances del dominio y su regla de rechazar reservas a 15 minutos o menos del inicio; la disponibilidad que muestra el frontend utiliza el mismo criterio.
 
 ## Ejecutar
 
@@ -45,7 +45,7 @@ La fecha y la hora del turno corresponden a Argentina (UTC-3). Una respuesta exi
 
 ## Qué se conserva
 
-- El dominio conserva las reglas de `main` incorporadas en `c5dc482`, incluido el test que rechaza a 15 minutos o menos, y el refactor horario de `c87d534`. La suite incorpora el test de confirmación a exactamente 24 horas y tres pruebas de la validación de edad utilizada por la API. Hay 31 tests declarados, 30 con comprobaciones; solo el del código QR sigue vacío.
+- El dominio conserva las reglas de `main` incorporadas en `c5dc482`, incluido el test que rechaza a 15 minutos o menos, y el refactor horario de `c87d534`. La suite contiene 31 casos con comprobaciones, incluidos el de confirmación a exactamente 24 horas, los tres de validación de edad utilizada por la API y el que verifica que una inscripción exitosa retorna un código QR de tipo texto y no vacío.
 - El frontend incorpora los cambios de su rama remota hasta `5298100`: calendario, iconos, rutas con sesión simulada, carga de horarios de dos segundos y agregado de visitantes condicionado a un turno disponible. Se mantienen las adaptaciones a la API para catálogo, calendario, disponibilidad y confirmación. La ampliación de términos no agrega validaciones automáticas de peso, salud u otras condiciones mencionadas en ellos.
 - La sesión continúa simulada. Se conservan el diseño, los textos y la simulación de correo/comprobante del frontend.
 - En ejecución normal las reservas se guardan en `Backend/data/ecoharmony.db`, con las tablas `inscripciones` y `participantes`. Se conservan al reiniciar el backend. El archivo es local y está excluido de Git.
@@ -59,7 +59,7 @@ El frontend original ya impedía feriados, turnos fuera de horario, reservas tar
 
 **Límite de 15 minutos resuelto por decisión del usuario:** exactamente 15 minutos antes se rechaza, igual que con menos de 15 minutos; para reservar deben faltar más de 15 minutos. La consulta de disponibilidad y el registro del dominio comparten ese comportamiento.
 
-Los tests pendientes del dominio pueden continuar por separado en `main`. Cuando se implementen más reglas allí, se deberá unificar esta capa para evitar duplicar validaciones.
+Cuando se incorporen nuevas reglas al dominio, se deberá revisar esta capa para evitar duplicar validaciones.
 
 ## Verificación automatizada
 
@@ -70,7 +70,7 @@ npm test
 npm run build
 ```
 
-`npm test` ejecuta los 31 casos de `test/inscripciones.test.ts`, incluidos los tres nuevos de la función de validación de edad de la API. El caso específico del QR sigue vacío y no representa una comprobación real. Por decisión del usuario se retiraron los archivos adicionales de pruebas de API, SQLite y frontend, junto con sus comandos y el ejecutor de tests del frontend. La integración HTTP y la persistencia se pueden comprobar siguiendo los pasos manuales y usando `npm run db:ver`.
+`npm test` ejecuta los 31 casos de `test/inscripciones.test.ts`, incluidos los tres de la función de validación de edad de la API. El caso específico del QR comprueba que la inscripción sea exitosa y que `codigoQR` sea un texto no vacío; no comprueba que el código pueda escanearse. No se incluyen suites adicionales de pruebas de API, SQLite ni frontend. La integración HTTP y la persistencia se pueden comprobar siguiendo los pasos manuales y usando `npm run db:ver`.
 
 ## Consultar la base de datos
 
