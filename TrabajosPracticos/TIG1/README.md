@@ -10,8 +10,9 @@ La presentación del grupo desarrolla la problemática, la estrategia Blue-Green
 
 | Archivo | Descripción |
 | --- | --- |
+| [TIG1_DespliegueDeSoftware_Enunciado.pdf](TIG1_DespliegueDeSoftware_Enunciado.pdf) | Consigna de la cátedra para la exposición sobre despliegue de software. Corresponde a las páginas 2 a 7 de los lineamientos de los TIG. |
 | [TIG1_DespliegueDeSoftware_EventoGlobalVideojuegoOnline.pdf](TIG1_DespliegueDeSoftware_EventoGlobalVideojuegoOnline.pdf) | Presentación elaborada por el grupo sobre el escenario 7. Incluye conclusiones y fuentes de información. |
 
 ## Estado
 
-Presentación incorporada al repositorio. No hay un enunciado separado versionado en esta carpeta. Las fuentes consultadas se encuentran en la sección de referencias del PDF.
+Presentación incorporada al repositorio. Las fuentes consultadas se encuentran en la sección de referencias de la presentación.
