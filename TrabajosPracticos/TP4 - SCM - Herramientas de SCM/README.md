@@ -15,6 +15,7 @@ la creación de Líneas Base.
 | Archivo | Descripción |
 | --- | --- |
 | `TP4_HerramientasSCM_Enunciado.pdf` | Enunciado del trabajo práctico provisto por la cátedra. |
+| [TP4_HerramientasSCM_Informe.pdf](TP4_HerramientasSCM_Informe.pdf) | Informe que el grupo entregó el 1 de septiembre de 2026. |
 | `links.md` | Enlaces externos relacionados con el trabajo. |
 
 La definición de los Ítems de Configuración, la regla de nombrado y el criterio de Línea Base
